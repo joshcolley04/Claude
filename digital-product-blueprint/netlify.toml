@@ -1,0 +1,7 @@
+[build]
+  base = "digital-product-blueprint"
+  command = "npm run build"
+  publish = "digital-product-blueprint/.next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
