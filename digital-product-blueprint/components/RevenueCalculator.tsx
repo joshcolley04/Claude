@@ -152,7 +152,7 @@ export default function RevenueCalculator() {
                 initial={{ scale: 0.9, opacity: 0.5 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.25 }}
-                className="text-4xl font-black text-white text-glow mb-2 tabular-nums"
+                className="text-xl sm:text-2xl font-black text-white text-glow mb-2 tabular-nums break-all leading-tight"
               >
                 {formatCurrency(results.revenuePerLaunch)}
               </motion.p>
@@ -174,7 +174,7 @@ export default function RevenueCalculator() {
                 initial={{ scale: 0.9, opacity: 0.5 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.25 }}
-                className="text-4xl font-black text-white mb-2 tabular-nums"
+                className="text-xl sm:text-2xl font-black text-white mb-2 tabular-nums break-all leading-tight"
               >
                 {formatCurrency(results.annualProjection)}
               </motion.p>
@@ -196,7 +196,7 @@ export default function RevenueCalculator() {
                 initial={{ scale: 0.9, opacity: 0.5 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.25 }}
-                className="text-4xl font-black text-white mb-2 tabular-nums"
+                className="text-xl sm:text-2xl font-black text-white mb-2 tabular-nums break-all leading-tight"
               >
                 {results.engagedAudience.toLocaleString('en-GB')}
               </motion.p>
