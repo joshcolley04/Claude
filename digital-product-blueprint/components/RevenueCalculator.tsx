@@ -2,33 +2,34 @@
 
 import { useState, useRef, useMemo } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { formatNumber } from '@/lib/utils'
+import { ArrowRight } from 'lucide-react'
+import { BOOKING_URL } from '@/lib/utils'
 
-const PRODUCT_PRICE = 97
-const LEAD_RATE = 0.05
-const CONVERSION_RATE = 0.03
+const LAUNCH_CONVERSION = 0.20
+const LAUNCHES_PER_YEAR = 4
 
 export default function RevenueCalculator() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-60px' })
 
   const [audienceSize, setAudienceSize] = useState(10000)
-  const [engagementRate, setEngagementRate] = useState(3)
+  const [engagementRate, setEngagementRate] = useState(5)
+  const [productPrice, setProductPrice] = useState(94)
 
   const results = useMemo(() => {
-    const engaged = audienceSize * (engagementRate / 100)
-    const leads = Math.round(engaged * LEAD_RATE)
-    const customers = Math.round(leads * CONVERSION_RATE + leads * 0.04)
-    const revenue = customers * PRODUCT_PRICE
-    return { leads, customers, revenue }
-  }, [audienceSize, engagementRate])
+    const engagedAudience = Math.round(audienceSize * (engagementRate / 100))
+    const customers = Math.round(engagedAudience * LAUNCH_CONVERSION)
+    const revenuePerLaunch = customers * productPrice
+    const annualProjection = revenuePerLaunch * LAUNCHES_PER_YEAR
+    return { engagedAudience, customers, revenuePerLaunch, annualProjection }
+  }, [audienceSize, engagementRate, productPrice])
 
   const sliders = [
     {
       label: 'Audience Size',
       value: audienceSize,
       min: 1000,
-      max: 1000000,
+      max: 500000,
       step: 1000,
       onChange: setAudienceSize,
       format: (v: number) => v.toLocaleString('en-GB'),
@@ -37,20 +38,27 @@ export default function RevenueCalculator() {
     {
       label: 'Engagement Rate',
       value: engagementRate,
-      min: 0.5,
-      max: 15,
+      min: 1,
+      max: 20,
       step: 0.5,
       onChange: setEngagementRate,
       format: (v: number) => `${v}%`,
       id: 'engagement-rate',
     },
+    {
+      label: 'Product Price',
+      value: productPrice,
+      min: 27,
+      max: 997,
+      step: 1,
+      onChange: setProductPrice,
+      format: (v: number) => `£${v}`,
+      id: 'product-price',
+    },
   ]
 
-  const resultCards = [
-    { label: 'Estimated Leads', value: results.leads.toLocaleString('en-GB'), sublabel: 'per launch' },
-    { label: 'Estimated Customers', value: results.customers.toLocaleString('en-GB'), sublabel: 'conversions' },
-    { label: 'Revenue Potential', value: formatNumber(results.revenue), sublabel: `based on £${PRODUCT_PRICE} product`, highlight: true },
-  ]
+  const formatCurrency = (v: number) =>
+    '£' + v.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
 
   return (
     <section
@@ -65,20 +73,22 @@ export default function RevenueCalculator() {
           transition={{ duration: 0.7 }}
           className="text-center mb-14"
         >
-          <p className="text-blue-400 text-xs font-semibold tracking-widest uppercase mb-4">
-            Revenue Potential
+          <p className="text-blue-400 text-xs font-semibold tracking-widest uppercase mb-3">
+            Income Estimator
           </p>
           <h2
             id="calculator-title"
-            className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4"
+            className="text-4xl md:text-5xl font-extrabold tracking-tight mb-2"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
-            What Could Your Audience
-            <br />
-            <span className="gradient-text">Be Worth?</span>
+            Run The Numbers
           </h2>
-          <p className="text-white/50 text-base max-w-xl mx-auto">
-            Adjust the sliders to estimate your revenue potential. These are illustrative figures based on typical creator launch benchmarks.
+          <p className="text-2xl md:text-3xl font-bold text-white/80 mb-4">
+            See what your{' '}
+            <span className="gradient-text">audience can earn</span>
+          </p>
+          <p className="text-white/45 text-base max-w-lg mx-auto">
+            Adjust the inputs below and watch your estimated digital product income update in real time.
           </p>
         </motion.div>
 
@@ -93,79 +103,125 @@ export default function RevenueCalculator() {
             {sliders.map((slider) => (
               <div key={slider.id}>
                 <div className="flex items-center justify-between mb-4">
-                  <label
-                    htmlFor={slider.id}
-                    className="text-white font-medium text-sm"
-                  >
+                  <label htmlFor={slider.id} className="text-white/60 text-xs font-semibold tracking-widest uppercase">
                     {slider.label}
                   </label>
-                  <span className="text-blue-400 font-bold text-lg tabular-nums">
+                  <span className="text-white font-bold text-xl tabular-nums">
                     {slider.format(slider.value)}
                   </span>
                 </div>
-                <div className="relative">
-                  <input
-                    id={slider.id}
-                    type="range"
-                    min={slider.min}
-                    max={slider.max}
-                    step={slider.step}
-                    value={slider.value}
-                    onChange={(e) => slider.onChange(Number(e.target.value))}
-                    className="w-full h-2 rounded-full appearance-none cursor-pointer"
-                    style={{
-                      background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${
-                        ((slider.value - slider.min) / (slider.max - slider.min)) * 100
-                      }%, rgba(255,255,255,0.1) ${
-                        ((slider.value - slider.min) / (slider.max - slider.min)) * 100
-                      }%, rgba(255,255,255,0.1) 100%)`,
-                    }}
-                    aria-valuenow={slider.value}
-                    aria-valuemin={slider.min}
-                    aria-valuemax={slider.max}
-                  />
-                </div>
-                <div className="flex justify-between mt-2">
-                  <span className="text-white/30 text-xs">{slider.format(slider.min)}</span>
-                  <span className="text-white/30 text-xs">{slider.format(slider.max)}</span>
-                </div>
+                <input
+                  id={slider.id}
+                  type="range"
+                  min={slider.min}
+                  max={slider.max}
+                  step={slider.step}
+                  value={slider.value}
+                  onChange={(e) => slider.onChange(Number(e.target.value))}
+                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                  style={{
+                    background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${
+                      ((slider.value - slider.min) / (slider.max - slider.min)) * 100
+                    }%, rgba(255,255,255,0.08) ${
+                      ((slider.value - slider.min) / (slider.max - slider.min)) * 100
+                    }%, rgba(255,255,255,0.08) 100%)`,
+                  }}
+                  aria-valuenow={slider.value}
+                  aria-valuemin={slider.min}
+                  aria-valuemax={slider.max}
+                />
               </div>
             ))}
           </div>
 
-          {/* Results */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {resultCards.map((card, i) => (
-              <motion.div
-                key={card.label}
-                layout
-                className={`rounded-2xl p-6 text-center ${
-                  card.highlight
-                    ? 'bg-blue-600/15 border border-blue-500/30'
-                    : 'bg-white/4 border border-white/8'
-                }`}
+          {/* Divider */}
+          <div className="h-px bg-white/6 mb-10" />
+
+          {/* Result cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+            {/* Est. Revenue Per Launch */}
+            <motion.div
+              layout
+              className="md:col-span-1 rounded-2xl p-6 bg-blue-600/15 border border-blue-500/30 text-center"
+            >
+              <p className="text-blue-400 text-xs font-semibold tracking-widest uppercase mb-3">
+                Est. Revenue Per Launch
+              </p>
+              <motion.p
+                key={results.revenuePerLaunch}
+                initial={{ scale: 0.9, opacity: 0.5 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.25 }}
+                className="text-4xl font-black text-white text-glow mb-2 tabular-nums"
               >
-                <motion.p
-                  key={card.value}
-                  initial={{ scale: 0.9, opacity: 0.5 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.3, delay: i * 0.05 }}
-                  className={`text-3xl font-black mb-1 tabular-nums ${
-                    card.highlight ? 'text-blue-300 text-glow' : 'text-white'
-                  }`}
-                >
-                  {card.value}
-                </motion.p>
-                <p className="text-white/60 text-sm font-medium mb-1">{card.label}</p>
-                <p className="text-white/30 text-xs">{card.sublabel}</p>
-              </motion.div>
-            ))}
+                {formatCurrency(results.revenuePerLaunch)}
+              </motion.p>
+              <p className="text-white/35 text-xs leading-relaxed">
+                Based on {(LAUNCH_CONVERSION * 100).toFixed(0)}% launch conversion of your engaged audience
+              </p>
+            </motion.div>
+
+            {/* Annual Projection */}
+            <motion.div
+              layout
+              className="md:col-span-1 rounded-2xl p-6 bg-white/4 border border-white/8 text-center"
+            >
+              <p className="text-white/50 text-xs font-semibold tracking-widest uppercase mb-3">
+                Annual Projection ({LAUNCHES_PER_YEAR} Launches)
+              </p>
+              <motion.p
+                key={results.annualProjection}
+                initial={{ scale: 0.9, opacity: 0.5 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.25 }}
+                className="text-4xl font-black text-white mb-2 tabular-nums"
+              >
+                {formatCurrency(results.annualProjection)}
+              </motion.p>
+              <p className="text-white/35 text-xs leading-relaxed">
+                Scaling with consistent product releases
+              </p>
+            </motion.div>
+
+            {/* Engaged Audience */}
+            <motion.div
+              layout
+              className="md:col-span-1 rounded-2xl p-6 bg-white/4 border border-white/8 text-center"
+            >
+              <p className="text-white/50 text-xs font-semibold tracking-widest uppercase mb-3">
+                Engaged Audience
+              </p>
+              <motion.p
+                key={results.engagedAudience}
+                initial={{ scale: 0.9, opacity: 0.5 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.25 }}
+                className="text-4xl font-black text-white mb-2 tabular-nums"
+              >
+                {results.engagedAudience.toLocaleString('en-GB')}
+              </motion.p>
+              <p className="text-white/35 text-xs leading-relaxed">
+                People actively seeing and interacting with your content
+              </p>
+            </motion.div>
           </div>
 
-          <p className="text-center text-white/25 text-xs mt-6 leading-relaxed">
-            Estimates are illustrative only. Actual results vary based on audience quality, product type, pricing and launch execution.
-            Assumes a £{PRODUCT_PRICE} product price, {(LEAD_RATE * 100).toFixed(0)}% lead rate on engaged followers and ~{(CONVERSION_RATE * 100).toFixed(0)}–7% conversion.
+          <p className="text-center text-white/25 text-xs mb-8 leading-relaxed">
+            Estimates use industry-standard conversion benchmarks. Actual results depend on your niche, offer quality, and how you launch.
           </p>
+
+          {/* CTA */}
+          <div className="text-center">
+            <a
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-3 px-10 py-4 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-base transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-1"
+            >
+              Turn This Into Reality
+              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+            </a>
+          </div>
         </motion.div>
       </div>
 
@@ -173,26 +229,26 @@ export default function RevenueCalculator() {
         input[type='range']::-webkit-slider-thumb {
           -webkit-appearance: none;
           appearance: none;
-          width: 20px;
-          height: 20px;
+          width: 22px;
+          height: 22px;
           border-radius: 50%;
           background: #3B82F6;
           cursor: pointer;
-          border: 2px solid rgba(59,130,246,0.5);
-          box-shadow: 0 0 12px rgba(59,130,246,0.4);
+          border: 3px solid #050505;
+          box-shadow: 0 0 0 2px #3B82F6, 0 0 16px rgba(59,130,246,0.5);
           transition: box-shadow 0.2s;
         }
         input[type='range']::-webkit-slider-thumb:hover {
-          box-shadow: 0 0 20px rgba(59,130,246,0.6);
+          box-shadow: 0 0 0 2px #3B82F6, 0 0 24px rgba(59,130,246,0.7);
         }
         input[type='range']::-moz-range-thumb {
-          width: 20px;
-          height: 20px;
+          width: 22px;
+          height: 22px;
           border-radius: 50%;
           background: #3B82F6;
           cursor: pointer;
-          border: 2px solid rgba(59,130,246,0.5);
-          box-shadow: 0 0 12px rgba(59,130,246,0.4);
+          border: 3px solid #050505;
+          box-shadow: 0 0 0 2px #3B82F6, 0 0 16px rgba(59,130,246,0.5);
         }
       `}</style>
     </section>
