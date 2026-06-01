@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Digital Product Blueprint</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a0f;
+      --surface:   #111118;
+      --card:      #16161f;
+      --border:    #222235;
+      --blue:      #2563eb;
+      --blue-light:#3b82f6;
+      --blue-glow: rgba(37,99,235,0.35);
+      --white:     #f1f5f9;
+      --muted:     #94a3b8;
+      --grey:      #1e1e2e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: padding .3s;
+    }
+
+    nav.scrolled { padding: .65rem 2rem; }
+
+    .logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .logo span { color: var(--blue-light); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--blue);
+      color: #fff !important;
+      padding: .5rem 1.2rem;
+      border-radius: 8px;
+      transition: background .2s, transform .2s !important;
+    }
+    .nav-cta:hover { background: var(--blue-light) !important; transform: translateY(-1px); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 60px; left: 0; right: 0;
+      background: rgba(10,10,15,0.97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem 2rem;
+      z-index: 99;
+      flex-direction: column;
+      gap: 1.5rem;
+      transform: translateY(-10px);
+      opacity: 0;
+      transition: transform .25s, opacity .25s;
+    }
+    .mobile-menu.open { display: flex; transform: translateY(0); opacity: 1; }
+    .mobile-menu a { color: var(--white); text-decoration: none; font-size: 1.1rem; font-weight: 500; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 1.5rem 5rem;
+      overflow: hidden;
+    }
+
+    /* animated grid bg */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%);
+      opacity: 0.5;
+      animation: gridPan 20s linear infinite;
+    }
+    @keyframes gridPan {
+      0%   { background-position: 0 0; }
+      100% { background-position: 60px 60px; }
+    }
+
+    /* blue glow orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+    .orb-1 {
+      width: 500px; height: 500px;
+      background: rgba(37,99,235,.15);
+      top: -100px; left: -100px;
+      animation: float1 8s ease-in-out infinite;
+    }
+    .orb-2 {
+      width: 400px; height: 400px;
+      background: rgba(59,130,246,.1);
+      bottom: 0; right: -100px;
+      animation: float2 10s ease-in-out infinite;
+    }
+    @keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,30px)} }
+    @keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,-20px)} }
+
+    .hero-inner { position: relative; z-index: 1; max-width: 780px; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(37,99,235,.15);
+      border: 1px solid rgba(37,99,235,.35);
+      color: var(--blue-light);
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .4rem .9rem;
+      border-radius: 100px;
+      margin-bottom: 1.8rem;
+    }
+    .badge::before { content: '●'; font-size: .5rem; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -.03em;
+      margin-bottom: 1.5rem;
+    }
+    h1 .accent { color: var(--blue-light); }
+    h1 .line2 {
+      display: block;
+      background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      padding: .9rem 2rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background .2s, transform .2s, box-shadow .2s;
+      box-shadow: 0 0 0 0 var(--blue-glow);
+    }
+    .btn-primary:hover {
+      background: var(--blue-light);
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px var(--blue-glow);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--white);
+      padding: .9rem 2rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color .2s, transform .2s, background .2s;
+    }
+    .btn-ghost:hover {
+      border-color: var(--blue-light);
+      background: rgba(37,99,235,.08);
+      transform: translateY(-2px);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      color: var(--muted);
+      font-size: .75rem;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .scroll-hint svg { width: 20px; opacity: .5; }
+    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+    /* ── STATS STRIP ── */
+    .stats {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+    }
+    .stats-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--blue-light);
+      letter-spacing: -.03em;
+    }
+    .stat-label {
+      font-size: .85rem;
+      color: var(--muted);
+      margin-top: .2rem;
+    }
+
+    /* ── SECTIONS COMMON ── */
+    section { padding: 6rem 1.5rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-tag {
+      display: inline-block;
+      background: rgba(37,99,235,.12);
+      border: 1px solid rgba(37,99,235,.25);
+      color: var(--blue-light);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .3rem .8rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 540px;
+      margin-bottom: 3.5rem;
+    }
+
+    /* ── WHAT WE DO ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(37,99,235,.06) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .feature-card:hover { border-color: rgba(37,99,235,.5); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,.4); }
+    .feature-card:hover::before { opacity: 1; }
+
+    .card-icon {
+      width: 48px; height: 48px;
+      background: rgba(37,99,235,.15);
+      border: 1px solid rgba(37,99,235,.25);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: .6rem;
+    }
+    .feature-card p { font-size: .9rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── HOW IT WORKS ── */
+    #how { background: var(--surface); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      position: relative;
+    }
+
+    .step {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      position: relative;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .step:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,.4); }
+
+    .step-num {
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-light));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin: 0 auto 1.2rem;
+      box-shadow: 0 0 20px var(--blue-glow);
+    }
+
+    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
+    .step p { font-size: .88rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── PRODUCTS / OFFERS ── */
+    .offers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .offer-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      transition: transform .3s, box-shadow .3s, border-color .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .offer-card.featured {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 1px var(--blue), 0 0 40px rgba(37,99,235,.2);
+    }
+    .offer-card:hover { transform: translateY(-4px); box-shadow: 0 24px 48px rgba(0,0,0,.5); }
+
+    .popular-badge {
+      position: absolute;
+      top: 1.2rem; right: 1.2rem;
+      background: var(--blue);
+      color: #fff;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: .3rem .7rem;
+      border-radius: 100px;
+    }
+
+    .offer-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .offer-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: .6rem; }
+    .offer-card p { font-size: .9rem; color: var(--muted); line-height: 1.65; flex: 1; }
+
+    .offer-features {
+      list-style: none;
+      margin: 1.5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+    }
+    .offer-features li {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .88rem;
+      color: var(--muted);
+    }
+    .offer-features li::before {
+      content: '✓';
+      color: var(--blue-light);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ── FAQ ACCORDION ── */
+    #faq { background: var(--surface); }
+
+    .faq-list { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: .75rem; }
+
+    .faq-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: border-color .3s;
+    }
+    .faq-item.open { border-color: rgba(37,99,235,.4); }
+
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: left;
+      padding: 1.2rem 1.5rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .faq-icon {
+      flex-shrink: 0;
+      width: 24px; height: 24px;
+      background: rgba(37,99,235,.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .8rem;
+      transition: transform .3s, background .3s;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); background: var(--blue); }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease, padding .3s;
+    }
+    .faq-a-inner {
+      padding: 0 1.5rem 1.2rem;
+      color: var(--muted);
+      font-size: .92rem;
+      line-height: 1.7;
+    }
+    .faq-item.open .faq-a { max-height: 400px; }
+
+    /* ── CTA ── */
+    #cta {
+      text-align: center;
+      padding: 7rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    #cta .orb { position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none; }
+    #cta .orb-c1 { width: 600px; height: 600px; background: rgba(37,99,235,.12); top: -150px; left: 50%; transform: translateX(-50%); }
+
+    .cta-inner { position: relative; z-index: 1; max-width: 620px; margin: 0 auto; }
+    #cta h2 { margin-bottom: 1rem; }
+    #cta p { color: var(--muted); font-size: 1.05rem; line-height: 1.7; margin-bottom: 2.5rem; }
+
+    .cta-form {
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .cta-form input {
+      flex: 1;
+      min-width: 220px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--white);
+      font-size: 1rem;
+      padding: .85rem 1.2rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .cta-form input::placeholder { color: var(--muted); }
+    .cta-form input:focus { border-color: var(--blue); }
+    .cta-form button {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: .85rem 1.8rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s, transform .2s, box-shadow .2s;
+    }
+    .cta-form button:hover { background: var(--blue-light); transform: translateY(-2px); box-shadow: 0 0 24px var(--blue-glow); }
+
+    .form-msg { display: none; margin-top: 1rem; font-size: .9rem; color: var(--blue-light); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 3rem 1.5rem 2rem;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: start;
+    }
+    .footer-brand { font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: .5rem; }
+    .footer-brand span { color: var(--blue-light); }
+    .footer-tagline { color: var(--muted); font-size: .875rem; }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: .875rem; transition: color .2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    /* ── REVEAL ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── CURSOR GLOW (desktop only) ── */
+    #cursor-glow {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(37,99,235,.07) 0%, transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      transition: left .1s, top .1s;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: .9rem 1.2rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      #cursor-glow { display: none; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-links { flex-direction: column; gap: .75rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-btns { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-ghost { width: 100%; text-align: center; }
+      .cta-form { flex-direction: column; }
+      .cta-form input, .cta-form button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor-glow"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="logo">The Digital<span>Blueprint</span></a>
+  <ul class="nav-links">
+    <li><a href="#what">What We Do</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#cta" class="nav-cta">Get Started</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#what"     onclick="closeMobile()">What We Do</a>
+  <a href="#how"      onclick="closeMobile()">How It Works</a>
+  <a href="#products" onclick="closeMobile()">Products</a>
+  <a href="#faq"      onclick="closeMobile()">FAQ</a>
+  <a href="#cta"      onclick="closeMobile()" style="color:var(--blue-light);font-weight:700;">Get Started →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="hero-inner reveal">
+    <div class="badge">Launching Now · Digital Products</div>
+    <h1>
+      Build &amp; Sell<br>
+      <span class="accent">Digital Products</span>
+      <span class="line2">That Actually Work.</span>
+    </h1>
+    <p>The Digital Product Blueprint gives you the strategy, tools, and resources to create and sell digital products — from idea to income.</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn-primary">Explore Products</a>
+      <a href="#how" class="btn-ghost">See How It Works</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+    </svg>
+    scroll
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="reveal">
+      <div class="stat-num" data-target="100">0</div>
+      <div class="stat-label">% Digital — No Physical Inventory</div>
+    </div>
+    <div class="reveal">
+      <div class="stat-num" data-target="24">0</div>
+      <div class="stat-label">Hour Passive Earning Potential</div>
+    </div>
+    <div class="reveal">
+      <div class="stat-num" data-target="0">0</div>
+      <div class="stat-label">Upfront Cost to Start</div>
+    </div>
+    <div class="reveal">
+      <div class="stat-num" data-target="∞" data-symbol="∞">∞</div>
+      <div class="stat-label">Scalability — Sell to Anyone</div>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT WE DO -->
+<section id="what">
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-tag">What We Do</span>
+      <h2>Everything You Need to<br>Launch a Digital Product</h2>
+      <p class="section-sub">We create high-quality resources built around one goal: helping you go from zero to selling digital products online.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="card-icon">🎯</div>
+        <h3>Step-by-Step Blueprints</h3>
+        <p>Clear, actionable frameworks that remove the guesswork. Know exactly what to build, how to price it, and where to sell it.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="card-icon">⚡</div>
+        <h3>Fast-Start Templates</h3>
+        <p>Done-for-you templates and swipe files so you can launch your first digital product in days, not months.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="card-icon">📈</div>
+        <h3>Growth Strategies</h3>
+        <p>Proven marketing methods tailored for digital product sellers — organic, social, email, and beyond.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="card-icon">🔒</div>
+        <h3>Beginner Friendly</h3>
+        <p>No experience required. Everything is designed to be accessible and practical, wherever you are on your journey.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="card-icon">💡</div>
+        <h3>Product Ideation</h3>
+        <p>Struggle to figure out what to sell? We walk you through how to find a profitable niche and validate your idea before building.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="card-icon">🚀</div>
+        <h3>Launch Playbooks</h3>
+        <p>Know exactly how to launch — from building hype to converting your first customers on day one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center;margin-bottom:3.5rem;">
+      <span class="section-tag">How It Works</span>
+      <h2>Three Simple Steps to<br>Your First Digital Product</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <h3>Choose Your Blueprint</h3>
+        <p>Pick the resource that fits your goal — whether that's creating your first product, building an audience, or scaling revenue.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <h3>Follow the Framework</h3>
+        <p>Follow the step-by-step system inside. No fluff, no jargon — just a clear path from idea to product to sale.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <h3>Launch &amp; Earn</h3>
+        <p>Put your product live and start generating income. Digital products can earn while you sleep — 24/7, from anywhere.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-tag">Our Products</span>
+      <h2>Digital Resources Built<br>to Get You Results</h2>
+      <p class="section-sub">Each product is focused, practical, and designed to move you forward fast. No fluff — just the blueprint.</p>
+    </div>
+    <div class="offers-grid">
+      <div class="offer-card reveal">
+        <div class="offer-icon">📘</div>
+        <h3>The Starter Blueprint</h3>
+        <p>The ultimate beginner's guide to creating and selling your first digital product. Covers ideation, creation, pricing, and your first sale.</p>
+        <ul class="offer-features">
+          <li>Product idea validation framework</li>
+          <li>Pricing strategy guide</li>
+          <li>Platform selection checklist</li>
+          <li>Launch-day action plan</li>
+        </ul>
+        <a href="#cta" class="btn-primary" style="text-align:center;">Get Notified →</a>
+      </div>
+      <div class="offer-card featured reveal">
+        <div class="popular-badge">Coming Soon</div>
+        <div class="offer-icon">🗺️</div>
+        <h3>The Full Blueprint System</h3>
+        <p>An end-to-end system for building a sustainable digital product business — from your first product to recurring revenue.</p>
+        <ul class="offer-features">
+          <li>Full product creation roadmap</li>
+          <li>Marketing &amp; traffic playbooks</li>
+          <li>Email list building from scratch</li>
+          <li>Scaling to passive income</li>
+          <li>Templates, swipe files &amp; more</li>
+        </ul>
+        <a href="#cta" class="btn-primary" style="text-align:center;">Join the Waitlist →</a>
+      </div>
+      <div class="offer-card reveal">
+        <div class="offer-icon">⚙️</div>
+        <h3>The Template Pack</h3>
+        <p>A collection of done-for-you templates — product pages, email sequences, social content, and pricing sheets — ready to customise.</p>
+        <ul class="offer-features">
+          <li>Product page copy templates</li>
+          <li>Launch email sequence</li>
+          <li>Social media caption swipes</li>
+          <li>Pricing calculator sheet</li>
+        </ul>
+        <a href="#cta" class="btn-primary" style="text-align:center;">Get Notified →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center;margin-bottom:3rem;">
+      <span class="section-tag">FAQ</span>
+      <h2>Common Questions</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Do I need experience to use your products?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Not at all. Everything we create is built for beginners. If you've never sold a digital product before, that's exactly who we're designing for. We break everything down step by step.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What kinds of digital products will I be able to create?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Our blueprints cover a wide range — eBooks, guides, templates, mini-courses, Notion dashboards, and more. We focus on products that are low-cost to create and high-value to sell.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          When will products be available?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">We're in the final stages of preparation. Join our waitlist to be the first to know — waitlist members will receive early access and an exclusive launch discount.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How quickly can I expect results?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">With the right focus, many people can have a product ready to sell within a week. Results vary based on the effort you put in, but our blueprints are built for speed — no wasted steps.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Do I need a big audience to start?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">No. You don't need thousands of followers. We show you how to make your first sales even from zero — using free platforms, simple outreach, and smart positioning.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="orb orb-c1"></div>
+  <div class="cta-inner reveal">
+    <span class="section-tag">Get Early Access</span>
+    <h2>Be First. Get the Blueprint.</h2>
+    <p>Join the waitlist and we'll let you know the moment we launch — plus you'll receive an exclusive early-bird discount and bonus resources.</p>
+    <form class="cta-form" onsubmit="handleSubmit(event)">
+      <input type="email" placeholder="Enter your email address" required autocomplete="email" />
+      <button type="submit">Join the Waitlist</button>
+    </form>
+    <p class="form-msg" id="formMsg">🎉 You're on the list! We'll be in touch soon.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">The Digital<span>Blueprint</span></div>
+      <div class="footer-tagline">Building the blueprint for your digital product business.</div>
+    </div>
+    <div class="footer-links">
+      <a href="#what">What We Do</a>
+      <a href="#how">How It Works</a>
+      <a href="#products">Products</a>
+      <a href="#faq">FAQ</a>
+      <a href="#cta">Waitlist</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 The Digital Product Blueprint. All rights reserved.</span>
+    <span style="color:var(--border)">·</span>
+    <span>Built for creators, by creators.</span>
+  </div>
+</footer>
+
+<script>
+  /* ── Cursor glow ── */
+  const glow = document.getElementById('cursor-glow');
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top  = e.clientY + 'px';
+  });
+
+  /* ── Nav scroll effect ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  /* ── Mobile menu ── */
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  function closeMobile() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  }
+
+  /* ── Scroll reveal ── */
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  /* ── Counter animation ── */
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target);
+    if (isNaN(target)) return;
+    const symbol = el.dataset.symbol || '';
+    const suffix = el.closest('.stats-inner')
+      ?.querySelectorAll('[data-target]')[3] === el ? '%' : '';
+    let start = 0;
+    const duration = 1500;
+    const step = timestamp => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(ease * target) + (el === document.querySelectorAll('[data-target]')[0] ? '%' : '');
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  const counterObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const nums = entry.target.querySelectorAll('[data-target]');
+        nums.forEach(n => {
+          if (n.dataset.symbol) return;
+          animateCounter(n);
+        });
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  const statsInner = document.querySelector('.stats-inner');
+  if (statsInner) counterObserver.observe(statsInner);
+
+  /* ── FAQ Accordion ── */
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  /* ── Email form ── */
+  function handleSubmit(e) {
+    e.preventDefault();
+    const msg = document.getElementById('formMsg');
+    msg.style.display = 'block';
+    e.target.reset();
+    setTimeout(() => { msg.style.display = 'none'; }, 5000);
+  }
+</script>
+
+</body>
+</html>
