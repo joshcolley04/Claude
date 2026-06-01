@@ -5,6 +5,7 @@ import HowItWorks from '@/components/HowItWorks'
 import BenefitsSection from '@/components/BenefitsSection'
 import RevenueCalculator from '@/components/RevenueCalculator'
 import FeaturesSection from '@/components/FeaturesSection'
+import ProductTypesSection from '@/components/ProductTypesSection'
 import BookingSection from '@/components/BookingSection'
 import FAQ from '@/components/FAQ'
 import EmailCapture from '@/components/EmailCapture'
@@ -26,6 +27,7 @@ export default function Home() {
         <BenefitsSection />
         <RevenueCalculator />
         <FeaturesSection />
+        <ProductTypesSection />
         <BookingSection />
         <FAQ />
         <EmailCapture />
