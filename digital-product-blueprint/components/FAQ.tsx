@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
-import { Plus, Minus } from 'lucide-react'
+import { Plus, Minus, CheckCircle2, XCircle } from 'lucide-react'
 
 const faqs = [
   {
@@ -107,6 +107,68 @@ export default function FAQ() {
           <p className="text-white/50 text-base">
             Everything you need to know before booking your call.
           </p>
+        </motion.div>
+
+        {/* Is this right for me? */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          className="mb-14"
+        >
+          <h3
+            className="text-2xl md:text-3xl font-extrabold text-center mb-8"
+            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+          >
+            Is this <span className="gradient-text">right for me?</span>
+          </h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* For you */}
+            <div className="glass rounded-2xl p-6 border border-green-500/15">
+              <p className="text-green-400 text-xs font-semibold tracking-widest uppercase mb-5 flex items-center gap-2">
+                <CheckCircle2 size={14} aria-hidden="true" />
+                This is for you if…
+              </p>
+              <ul className="space-y-3">
+                {[
+                  'You have an engaged audience but no digital product yet',
+                  'You\'ve thought about launching something but don\'t know where to start',
+                  'You want passive income without the months of building it yourself',
+                  'You\'re a creator, influencer, coach or personal brand',
+                  'You\'d rather promote than produce',
+                  'You want a professional product that reflects your brand\'s quality',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm text-white/65 leading-relaxed">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400/60 mt-1.5 flex-shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Not for you */}
+            <div className="glass rounded-2xl p-6 border border-red-500/12">
+              <p className="text-red-400 text-xs font-semibold tracking-widest uppercase mb-5 flex items-center gap-2">
+                <XCircle size={14} aria-hidden="true" />
+                This isn't for you if…
+              </p>
+              <ul className="space-y-3">
+                {[
+                  'You have fewer than 1,000 engaged followers',
+                  'You want full creative control over every single detail',
+                  'You\'re looking for a get-rich-quick scheme with no effort',
+                  'You\'re not willing to promote the product to your audience',
+                  'You already have a team building products in-house',
+                  'You\'re not ready to have a conversation about your goals',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm text-white/65 leading-relaxed">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-400/60 mt-1.5 flex-shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </motion.div>
 
         <div className="space-y-3">
