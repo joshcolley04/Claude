@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import AmbientOrbs from '@/components/AmbientOrbs'
+import BeamEffect from '@/components/BeamEffect'
+import CursorGlow from '@/components/CursorGlow'
 
 export const metadata: Metadata = {
   title: 'The Digital Product Blueprint™ | Turn Your Audience Into Revenue',
@@ -45,6 +48,9 @@ export default function RootLayout({
       </head>
       <body className="bg-[#050505] text-white antialiased overflow-x-hidden">
         <div className="blueprint-dots" aria-hidden="true" />
+        <AmbientOrbs />
+        <BeamEffect />
+        <CursorGlow />
         <div className="relative z-10">
           {children}
         </div>
