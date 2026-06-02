@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import CredibilitySection from '@/components/CredibilitySection'
 import HowItWorks from '@/components/HowItWorks'
+import ProcessSection from '@/components/ProcessSection'
 import BenefitsSection from '@/components/BenefitsSection'
 import RevenueCalculator from '@/components/RevenueCalculator'
 import FeaturesSection from '@/components/FeaturesSection'
@@ -24,6 +25,7 @@ export default function Home() {
         <Hero />
         <CredibilitySection />
         <HowItWorks />
+        <ProcessSection />
         <BenefitsSection />
         <RevenueCalculator />
         <FeaturesSection />
