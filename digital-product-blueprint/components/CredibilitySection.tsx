@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { Lightbulb, Hammer, Zap, Star, TrendingUp } from 'lucide-react'
+import { Lightbulb, Hammer, Zap, Star, TrendingUp, Rocket } from 'lucide-react'
 
 const cards = [
   {
@@ -35,6 +35,12 @@ const cards = [
     title: 'Monetisation Frameworks',
     description:
       'Proven pricing models, upsell sequences and launch strategies engineered to maximise revenue from your existing audience.',
+  },
+  {
+    icon: Rocket,
+    title: 'Launch & Growth Support',
+    description:
+      'We don\'t hand you a product and disappear. We support every launch with strategy, assets and optimisation to keep revenue growing.',
   },
 ]
 
@@ -102,9 +108,7 @@ export default function CredibilitySection() {
                         boxShadow: '0 0 40px rgba(59,130,246,0.1)',
                       }
                 }
-                className={`glass rounded-2xl p-7 transition-colors duration-300 cursor-default ${
-                  i === 4 ? 'md:col-span-2 lg:col-span-1' : ''
-                }`}
+                className="glass rounded-2xl p-7 transition-colors duration-300 cursor-default"
               >
                 <div className="w-12 h-12 rounded-xl bg-blue-500/15 flex items-center justify-center mb-5">
                   <Icon size={22} className="text-blue-400" aria-hidden="true" />
