@@ -153,14 +153,18 @@ function StepCard({ step, index, inView, shouldReduce }: {
             </div>
           </div>
 
-          {/* Orbiting dot */}
+          {/* Orbiting dot — rotates a wrapper div, dot offset to sit just outside the ring */}
           {!shouldReduce && (
             <motion.div
-              className={`absolute w-2.5 h-2.5 rounded-full ${step.iconBg} border ${step.border}`}
+              className="absolute inset-0 flex items-center justify-center"
               animate={{ rotate: 360 }}
               transition={{ duration: 6 + index, repeat: Infinity, ease: 'linear' }}
-              style={{ transformOrigin: '0 56px', top: '50%', left: '50%', marginTop: -5, marginLeft: -5 }}
-            />
+            >
+              <div
+                className={`w-2.5 h-2.5 rounded-full ${step.iconBg} border ${step.border}`}
+                style={{ transform: 'translateY(-68px)' }}
+              />
+            </motion.div>
           )}
         </motion.div>
       </div>
