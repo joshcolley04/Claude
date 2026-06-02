@@ -254,7 +254,7 @@ export default function ProcessSection() {
         >
           <p className="text-white/35 text-sm">
             The entire process typically takes{' '}
-            <span className="text-white/60 font-semibold">2 to 6 weeks</span>
+            <span className="text-white/60 font-semibold">1 to 2 weeks</span>
             {' '}from discovery call to live product.
           </p>
         </motion.div>
