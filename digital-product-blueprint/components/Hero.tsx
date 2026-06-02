@@ -176,7 +176,7 @@ export default function Hero() {
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-base transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/30 hover:-translate-y-1"
           >
-            Book a Free Strategy Call
+            Book a Free Strategy Meeting
             <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </a>
           <button

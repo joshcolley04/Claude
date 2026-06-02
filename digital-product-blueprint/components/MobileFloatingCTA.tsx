@@ -35,7 +35,7 @@ export default function MobileFloatingCTA() {
             rel="noopener noreferrer"
             className="group flex items-center justify-center gap-3 w-full px-6 py-4 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-base shadow-2xl shadow-blue-500/30 transition-all duration-200 active:scale-95"
           >
-            Book a Free Strategy Call
+            Book a Free Strategy Meeting
             <ArrowRight
               size={18}
               className="group-hover:translate-x-1 transition-transform"

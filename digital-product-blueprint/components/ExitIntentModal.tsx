@@ -103,7 +103,7 @@ export default function ExitIntentModal() {
                   onClick={handleClose}
                   className="group flex items-center justify-center gap-2 w-full px-6 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm transition-all duration-200 shadow-lg shadow-blue-500/20"
                 >
-                  Book My Free Strategy Call
+                  Book My Free Strategy Meeting
                   <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                 </a>
                 <button

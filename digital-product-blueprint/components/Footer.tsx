@@ -20,7 +20,7 @@ export default function Footer() {
             {[
               { label: 'How It Works', href: '#how-it-works' },
               { label: 'FAQ', href: '#faq' },
-              { label: 'Book a Call', href: BOOKING_URL, external: true },
+              { label: 'Book a Free Strategy Meeting', href: BOOKING_URL, external: true },
             ].map((link) => (
               <a
                 key={link.label}

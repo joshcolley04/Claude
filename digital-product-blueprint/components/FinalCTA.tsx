@@ -92,7 +92,7 @@ export default function FinalCTA() {
             whileTap={{ scale: 0.97 }}
             className="group inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-lg transition-all duration-300 shadow-2xl shadow-blue-500/25 hover:shadow-blue-500/45"
           >
-            Book A Free Call
+            Book a Free Strategy Meeting
             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
           </motion.a>
           <motion.a

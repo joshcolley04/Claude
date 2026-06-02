@@ -56,7 +56,7 @@ export default function BookingSection() {
           >
             Book Your Free
             <br />
-            <span className="gradient-text">Strategy Call</span>
+            <span className="gradient-text">Strategy Meeting</span>
           </h2>
 
           <p className="text-white/60 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
@@ -96,7 +96,7 @@ export default function BookingSection() {
             whileTap={{ scale: 0.98 }}
             className="group inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-lg transition-all duration-300 shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40"
           >
-            Book Your Free Strategy Call
+            Book Your Free Strategy Meeting
             <ArrowRight
               size={20}
               className="group-hover:translate-x-1 transition-transform"

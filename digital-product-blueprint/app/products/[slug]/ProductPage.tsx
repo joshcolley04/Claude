@@ -47,7 +47,7 @@ export default function ProductPage({ product }: { product: Product }) {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25"
         >
-          Book a Call
+          Book a Free Strategy Meeting
         </a>
       </nav>
 
