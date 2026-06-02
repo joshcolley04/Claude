@@ -86,15 +86,6 @@ export default function HowItWorks() {
         </motion.div>
 
         <div className="relative">
-          {/* Connector line - desktop */}
-          <div
-            className="hidden lg:block absolute top-16 left-[12.5%] right-[12.5%] h-px"
-            aria-hidden="true"
-            style={{
-              background:
-                'linear-gradient(90deg, transparent, rgba(59,130,246,0.3) 20%, rgba(99,102,241,0.3) 50%, rgba(6,182,212,0.3) 80%, transparent)',
-            }}
-          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step, i) => {
