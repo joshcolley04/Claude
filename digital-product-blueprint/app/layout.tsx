@@ -44,7 +44,10 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-[#050505] text-white antialiased overflow-x-hidden">
-        {children}
+        <div className="blueprint-dots" aria-hidden="true" />
+        <div className="relative z-10">
+          {children}
+        </div>
       </body>
     </html>
   )
