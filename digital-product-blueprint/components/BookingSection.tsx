@@ -85,41 +85,20 @@ export default function BookingSection() {
             })}
           </div>
 
-          <motion.div
+          <motion.a
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             initial={{ opacity: 0, y: 16 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.55 }}
-            className="relative inline-flex"
+            whileHover={{ scale: 1.03, y: -3 }}
+            whileTap={{ scale: 0.98 }}
+            className="group inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-lg transition-all duration-300 shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40"
           >
-            {/* Pulsing rings */}
-            <motion.span
-              className="absolute inset-0 rounded-2xl bg-blue-500/30"
-              animate={{ scale: [1, 1.15, 1], opacity: [0.6, 0, 0.6] }}
-              transition={{ duration: 2.5, repeat: Infinity }}
-            />
-            <motion.span
-              className="absolute inset-0 rounded-2xl bg-blue-500/20"
-              animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0, 0.4] }}
-              transition={{ duration: 2.5, repeat: Infinity, delay: 0.4 }}
-            />
-            <motion.a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.05, y: -3 }}
-              whileTap={{ scale: 0.97 }}
-              className="group relative inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-lg transition-all duration-300 shadow-xl shadow-blue-500/30 hover:shadow-blue-500/50 overflow-hidden"
-            >
-              <motion.span
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -skew-x-12"
-                initial={{ x: '-100%' }}
-                whileHover={{ x: '200%' }}
-                transition={{ duration: 0.6 }}
-              />
-              <span className="relative">Book Your Free Strategy Meeting</span>
-              <ArrowRight size={20} className="relative group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+            Book Your Free Strategy Meeting
+            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
             </motion.a>
-          </motion.div>
 
           <motion.p
             initial={{ opacity: 0 }}

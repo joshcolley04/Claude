@@ -98,7 +98,7 @@ export default function FeaturesSection() {
                         transition: { duration: 0.25 },
                       }
                 }
-                className="group shimmer-card p-7 cursor-default transition-all duration-300"
+                className="group glass rounded-2xl p-7 hover:border-blue-500/25 transition-all duration-300 cursor-default"
               >
                 <motion.div
                   className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-5 group-hover:bg-blue-500/20 transition-colors duration-300"
