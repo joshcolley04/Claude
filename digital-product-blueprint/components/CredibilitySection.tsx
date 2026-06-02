@@ -76,7 +76,7 @@ export default function CredibilitySection() {
           </h2>
           <p className="text-white/50 text-lg max-w-2xl mx-auto leading-relaxed">
             We handle every element of your digital product business so you can focus on what
-            you do best — growing your audience.
+            you do best, growing your audience.
           </p>
         </motion.div>
 

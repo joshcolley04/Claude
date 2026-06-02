@@ -10,7 +10,7 @@ const steps = [
     number: '01',
     title: 'You Bring The Audience',
     description:
-      'You have the followers, community and trust. That\'s the most valuable asset. We start by understanding your audience deeply — their goals, pain points and what they\'re willing to invest in.',
+      'You have the followers, community and trust. That\'s the most valuable asset. We start by understanding your audience deeply, their goals, pain points and what they\'re willing to invest in.',
     color: 'from-blue-600/20 to-blue-400/5',
     border: 'border-blue-500/20',
     iconBg: 'bg-blue-500/15',
@@ -21,7 +21,7 @@ const steps = [
     number: '02',
     title: 'We Build The Product',
     description:
-      'Our team designs and builds a premium digital product tailored to your audience. Courses, templates, toolkits, memberships — fully produced, branded and ready to sell.',
+      'Our team designs and builds a premium digital product tailored to your audience. Courses, templates, toolkits, memberships, fully produced, branded and ready to sell.',
     color: 'from-indigo-600/20 to-indigo-400/5',
     border: 'border-indigo-500/20',
     iconBg: 'bg-indigo-500/15',
@@ -32,7 +32,7 @@ const steps = [
     number: '03',
     title: 'You Promote',
     description:
-      'You share the product with your audience the way only you can — authentically. We provide you with all the creative assets, copy and launch strategy to make it seamless.',
+      'You share the product with your audience the way only you can, authentically. We provide you with all the creative assets, copy and launch strategy to make it seamless.',
     color: 'from-violet-600/20 to-violet-400/5',
     border: 'border-violet-500/20',
     iconBg: 'bg-violet-500/15',
@@ -43,7 +43,7 @@ const steps = [
     number: '04',
     title: 'We Scale Together',
     description:
-      'Once the product is live, we optimise, iterate and scale. Automated fulfilment, customer support, and revenue tracking — all handled. You focus on your next milestone.',
+      'Once the product is live, we optimise, iterate and scale. Automated fulfilment, customer support, and revenue tracking, all handled. You focus on your next milestone.',
     color: 'from-blue-600/20 to-cyan-400/5',
     border: 'border-cyan-500/20',
     iconBg: 'bg-cyan-500/15',

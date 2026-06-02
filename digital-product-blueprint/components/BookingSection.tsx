@@ -61,7 +61,7 @@ export default function BookingSection() {
 
           <p className="text-white/60 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
             Discover how your audience could become a scalable revenue stream through
-            professionally built digital products — without creating them yourself.
+            professionally built digital products, without creating them yourself.
           </p>
 
           {/* Trust points */}

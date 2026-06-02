@@ -12,10 +12,10 @@ const products = [
     tag: 'Ebooks & Guides',
     headline: 'Your Knowledge, Packaged and Sold',
     description:
-      'Turn your expertise into a professional, sellable digital product — no camera, no tech skills, no faff. We handle structure, writing, design and delivery.',
+      'Turn your expertise into a professional, sellable digital product, no camera, no tech skills, no faff. We handle structure, writing, design and delivery.',
     painPoints: [
       "You've been sharing free value for years with nothing to show for it",
-      'Your audience keeps asking the same questions — you need a scalable answer',
+      'Your audience keeps asking the same questions, you need a scalable answer',
     ],
     examples: ['Step-by-step strategy guides', 'Niche playbooks', 'Industry reports', 'How-to PDF guides'],
     color: 'from-blue-600/15 to-transparent',
@@ -48,7 +48,7 @@ const products = [
     tag: 'Brand Kits',
     headline: 'Help Your Audience Look the Part',
     description:
-      'Every entrepreneur in your audience wants to look professional. Brand kits give them a complete visual identity in minutes — and they\'ll credit you every time.',
+      'Every entrepreneur in your audience wants to look professional. Brand kits give them a complete visual identity in minutes, and they\'ll credit you every time.',
     painPoints: [
       'Your audience struggles to look polished and professional online',
       'Design costs are pricing your followers out of building their brand',
@@ -69,7 +69,7 @@ const products = [
       'Interactive tools are the most shared and bookmarked products online. They drive word-of-mouth, position you as an authority and justify premium pricing.',
     painPoints: [
       'You want a product that feels premium and justifies a higher price',
-      'Static PDFs aren\'t cutting it — your audience wants something interactive',
+      'Static PDFs aren\'t cutting it, your audience wants something interactive',
     ],
     examples: ['Revenue calculators', 'Habit & goal trackers', 'Audit tools', 'Quiz-based assessments'],
     color: 'from-cyan-600/15 to-transparent',
@@ -84,7 +84,7 @@ const products = [
     tag: 'Custom Builds',
     headline: "A Product as Unique as Your Brand",
     description:
-      'Have an idea that doesn\'t fit a template? We build it from scratch — engineered entirely around your audience. If you can describe it, we can build it.',
+      'Have an idea that doesn\'t fit a template? We build it from scratch, engineered entirely around your audience. If you can describe it, we can build it.',
     painPoints: [
       'You have a product idea but no idea how to build it',
       'Off-the-shelf products don\'t reflect your brand or audience\'s needs',
@@ -102,10 +102,10 @@ const products = [
     tag: 'Online Courses',
     headline: 'The Highest-Ticket Product in Your Arsenal',
     description:
-      'Online courses command the highest price points of any digital product. We handle curriculum, production, platform setup and launch — you just show up and teach.',
+      'Online courses command the highest price points of any digital product. We handle curriculum, production, platform setup and launch, you just show up and teach.',
     painPoints: [
       'You know you could charge more but don\'t have the infrastructure',
-      'Building a course feels overwhelming — you don\'t know where to start',
+      'Building a course feels overwhelming, you don\'t know where to start',
     ],
     examples: ['Video masterclasses', 'Self-paced programmes', 'Cohort courses', 'Mini-courses & workshops'],
     color: 'from-emerald-600/15 to-transparent',

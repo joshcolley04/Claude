@@ -8,7 +8,7 @@ const faqs = [
   {
     question: 'Do I need a product already?',
     answer:
-      'Not at all. That\'s precisely why we exist. You bring your audience and your personal brand — we handle ideation, creation, and everything in between. Our strategy sessions start by understanding your audience deeply so we can identify the highest-converting product opportunity for your specific niche.',
+      'Not at all. That\'s precisely why we exist. You bring your audience and your personal brand, we handle ideation, creation, and everything in between. Our strategy sessions start by understanding your audience deeply so we can identify the highest-converting product opportunity for your specific niche.',
   },
   {
     question: 'What types of products can you create?',
@@ -18,7 +18,7 @@ const faqs = [
   {
     question: 'How does revenue sharing work?',
     answer:
-      'We operate on a partnership model where we share in the revenue generated from products we build together. The exact structure is discussed during your strategy call and tailored to your situation. There are no large upfront fees — our incentives are aligned with your success.',
+      'We operate on a partnership model where we share in the revenue generated from products we build together. The exact structure is discussed during your strategy call and tailored to your situation. There are no large upfront fees, our incentives are aligned with your success.',
   },
   {
     question: 'How long does it take?',
@@ -28,7 +28,7 @@ const faqs = [
   {
     question: 'Who is this for?',
     answer:
-      'This is for creators, influencers, coaches, consultants and personal brands who have an engaged audience but haven\'t yet monetised through digital products — or who have tried but found the process overwhelming. If you have followers who trust your recommendations, this model is designed for you.',
+      'This is for creators, influencers, coaches, consultants and personal brands who have an engaged audience but haven\'t yet monetised through digital products, or who have tried but found the process overwhelming. If you have followers who trust your recommendations, this model is designed for you.',
   },
 ]
 

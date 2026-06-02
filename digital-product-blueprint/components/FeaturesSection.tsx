@@ -33,7 +33,7 @@ const features = [
   {
     icon: Handshake,
     title: 'Partnership Approach',
-    description: 'We\'re not a vendor — we\'re a partner. Your success is our success. We build for the long term.',
+    description: 'We\'re not a vendor, we\'re a partner. Your success is our success. We build for the long term.',
   },
 ]
 
@@ -76,7 +76,7 @@ export default function FeaturesSection() {
             <span className="gradient-text">Nothing You Don't.</span>
           </h2>
           <p className="text-white/50 text-lg max-w-xl mx-auto">
-            The smartest way for creators to monetise — built around your strengths,
+            The smartest way for creators to monetise, built around your strengths,
             not your weaknesses.
           </p>
         </motion.div>
