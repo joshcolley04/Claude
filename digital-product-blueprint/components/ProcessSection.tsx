@@ -11,7 +11,7 @@ const steps = [
     title: 'Discovery Call',
     tagline: 'We listen before we build',
     description:
-      'We start with a free 30-minute strategy session to understand your audience, your brand, and your goals. No templates, no assumptions — just a focused conversation about where you are and where you want to go. By the end, you\'ll have clarity on which digital product fits your audience best and a realistic picture of your revenue potential.',
+      'We start with a free 30-minute strategy session to understand your audience, your brand, and your goals. No templates, no assumptions, just a focused conversation about where you are and where you want to go. By the end, you\'ll have clarity on which digital product fits your audience best and a realistic picture of your revenue potential.',
     details: ['Audience analysis', 'Monetisation opportunity mapping', 'Product fit assessment', 'Revenue projection walkthrough'],
     color: 'from-blue-600/20 to-blue-500/5',
     border: 'border-blue-500/25',
@@ -25,7 +25,7 @@ const steps = [
     title: 'Strategy & Concept',
     tagline: 'The blueprint for your product',
     description:
-      'Once we\'re aligned on the opportunity, we build a complete monetisation strategy around your brand. This covers product format, pricing architecture, positioning, and the sales funnel — everything mapped out before a single file is created. You sign off on the concept before we move into production.',
+      'Once we\'re aligned on the opportunity, we build a complete monetisation strategy around your brand. This covers product format, pricing architecture, positioning, and the sales funnel, all mapped out before a single file is created. You sign off on the concept before we move into production.',
     details: ['Product format selection', 'Pricing & packaging strategy', 'Brand alignment review', 'Sales funnel architecture'],
     color: 'from-indigo-600/20 to-indigo-500/5',
     border: 'border-indigo-500/25',
@@ -39,7 +39,7 @@ const steps = [
     title: 'Design & Build',
     tagline: 'Premium products, built for you',
     description:
-      'Our team handles the entire production process — writing, design, development, and quality assurance. Whether it\'s a course, a template pack, a brand kit, or a custom app, every deliverable is crafted to a professional standard that reflects your brand and converts your audience. You stay in the loop without lifting a finger.',
+      'Our team handles the entire production process, covering writing, design, development, and quality assurance. Whether it\'s a course, a template pack, a brand kit, or a custom app, every deliverable is crafted to a professional standard that reflects your brand and converts your audience. You stay in the loop without lifting a finger.',
     details: ['Full content creation', 'Professional design & branding', 'Automated delivery setup', 'Quality assurance & testing'],
     color: 'from-violet-600/20 to-violet-500/5',
     border: 'border-violet-500/25',
@@ -53,7 +53,7 @@ const steps = [
     title: 'Deliver & Launch',
     tagline: 'From zero to revenue-generating',
     description:
-      'We don\'t hand you a product and disappear. We deploy the full delivery system, provide launch assets, and support your go-live with strategy and optimisation. Your product goes live with everything in place — payment processing, automated fulfilment, and post-purchase sequences — so revenue starts from day one.',
+      'We don\'t hand you a product and disappear. We deploy the full delivery system, provide launch assets, and support your go-live with strategy and optimisation. Your product goes live with everything in place including payment processing, automated fulfilment, and post-purchase sequences, so revenue starts from day one.',
     details: ['Full deployment & go-live support', 'Launch content & assets', 'Post-purchase automation', 'Ongoing optimisation support'],
     color: 'from-cyan-600/20 to-cyan-500/5',
     border: 'border-cyan-500/25',
@@ -215,7 +215,7 @@ export default function ProcessSection() {
             <span className="gradient-text">First Sale</span>
           </h2>
           <p className="text-white/50 text-lg max-w-2xl mx-auto leading-relaxed">
-            A clear, proven process — so you always know what's happening, what's next, and
+            A clear, proven process so you always know what's happening, what's next, and
             exactly when your product will be ready to sell.
           </p>
         </motion.div>
