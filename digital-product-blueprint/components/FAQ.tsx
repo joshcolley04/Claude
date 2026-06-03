@@ -156,7 +156,7 @@ export default function FAQ() {
                 {[
                   'You have fewer than 1,000 engaged followers',
                   'You want full creative control over every single detail',
-                  'You\'re looking for a get-rich-quick scheme with no effort',
+                  'You\'re looking for a get rich quick scheme with no effort',
                   'You\'re not willing to promote the product to your audience',
                   'You already have a team building products in house',
                   'You\'re not ready to have a conversation about your goals',
