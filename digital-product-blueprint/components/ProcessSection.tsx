@@ -70,16 +70,71 @@ function StepCard({ step, index, inView, shouldReduce }: {
   shouldReduce: boolean | null
 }) {
   const Icon = step.icon
+  const isEven = index % 2 === 0
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: -40 }}
+      initial={{ opacity: 0, x: isEven ? -40 : 40 }}
       animate={inView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.7, delay: 0.15 + index * 0.15, ease: 'easeOut' }}
       className="relative grid md:grid-cols-2 gap-8 md:gap-16 items-center"
     >
-      {/* Circle icon — always on the left (col-1) */}
-      <div className="hidden md:flex items-center justify-center">
+      {/* Card — alternates left/right */}
+      <div className={`${isEven ? 'md:col-start-1' : 'md:col-start-2'} relative`}>
+        <motion.div
+          whileHover={shouldReduce ? {} : { y: -4, borderColor: 'rgba(59,130,246,0.3)' }}
+          transition={{ duration: 0.25 }}
+          className={`relative glass rounded-2xl p-8 border ${step.border} overflow-hidden`}
+        >
+          {/* Gradient background */}
+          <div
+            className={`absolute inset-0 bg-gradient-to-br ${step.color} pointer-events-none`}
+            aria-hidden="true"
+          />
+
+          {/* Large number watermark — inside the card */}
+          <div
+            className={`absolute top-2 right-4 text-[90px] font-black leading-none select-none pointer-events-none ${step.numberColor}`}
+            aria-hidden="true"
+          >
+            {step.number}
+          </div>
+
+          <div className="relative z-10">
+            <div className="flex items-center gap-4 mb-5">
+              <div className={`w-12 h-12 rounded-xl ${step.iconBg} flex items-center justify-center flex-shrink-0`}>
+                <Icon size={22} className={step.iconColor} aria-hidden="true" />
+              </div>
+              <span className={`text-sm font-bold tracking-widest uppercase ${step.iconColor} opacity-70`}>
+                Step {step.number}
+              </span>
+            </div>
+
+            <h3
+              className="text-2xl font-extrabold text-white mb-1"
+              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            >
+              {step.title}
+            </h3>
+            <p className={`text-sm font-medium mb-4 ${step.iconColor}`}>{step.tagline}</p>
+            <p className="text-white/55 text-sm leading-relaxed mb-6">{step.description}</p>
+
+            <div className="flex flex-wrap gap-2">
+              {step.details.map((d) => (
+                <span
+                  key={d}
+                  className={`text-xs font-medium px-3 py-1.5 rounded-full ${step.iconBg} ${step.iconColor} border ${step.border}`}
+                >
+                  {d}
+                </span>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Circle — opposite side to card */}
+      <div className={`${isEven ? 'md:col-start-2' : 'md:col-start-1 md:row-start-1'} hidden md:flex items-center justify-center`}>
         <motion.div
           initial={{ opacity: 0, scale: 0.7 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
@@ -106,62 +161,6 @@ function StepCard({ step, index, inView, shouldReduce }: {
               />
             </motion.div>
           )}
-        </motion.div>
-      </div>
-
-      {/* Card — always on the right (col-2) */}
-      <div className="relative">
-        <motion.div
-          whileHover={shouldReduce ? {} : { y: -4, borderColor: 'rgba(59,130,246,0.3)' }}
-          transition={{ duration: 0.25 }}
-          className={`relative glass rounded-2xl p-8 border ${step.border} overflow-hidden`}
-        >
-          {/* Gradient background */}
-          <div
-            className={`absolute inset-0 bg-gradient-to-br ${step.color} pointer-events-none`}
-            aria-hidden="true"
-          />
-
-          {/* Large number watermark — inside the card, top right */}
-          <div
-            className={`absolute -top-2 right-3 text-[90px] font-black leading-none select-none pointer-events-none ${step.numberColor}`}
-            aria-hidden="true"
-          >
-            {step.number}
-          </div>
-
-          <div className="relative z-10">
-            {/* Icon + step label */}
-            <div className="flex items-center gap-4 mb-5">
-              <div className={`w-12 h-12 rounded-xl ${step.iconBg} flex items-center justify-center flex-shrink-0`}>
-                <Icon size={22} className={step.iconColor} aria-hidden="true" />
-              </div>
-              <span className={`text-sm font-bold tracking-widest uppercase ${step.iconColor} opacity-70`}>
-                Step {step.number}
-              </span>
-            </div>
-
-            <h3
-              className="text-2xl font-extrabold text-white mb-1"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            >
-              {step.title}
-            </h3>
-            <p className={`text-sm font-medium mb-4 ${step.iconColor}`}>{step.tagline}</p>
-            <p className="text-white/55 text-sm leading-relaxed mb-6">{step.description}</p>
-
-            {/* Detail chips */}
-            <div className="flex flex-wrap gap-2">
-              {step.details.map((d) => (
-                <span
-                  key={d}
-                  className={`text-xs font-medium px-3 py-1.5 rounded-full ${step.iconBg} ${step.iconColor} border ${step.border}`}
-                >
-                  {d}
-                </span>
-              ))}
-            </div>
-          </div>
         </motion.div>
       </div>
     </motion.div>
