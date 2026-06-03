@@ -9,7 +9,6 @@ import BookingSection from '@/components/BookingSection'
 import FAQ from '@/components/FAQ'
 import FinalCTA from '@/components/FinalCTA'
 import ScrollProgress from '@/components/ScrollProgress'
-import MobileFloatingCTA from '@/components/MobileFloatingCTA'
 import ExitIntentModal from '@/components/ExitIntentModal'
 import Footer from '@/components/Footer'
 
@@ -30,7 +29,6 @@ export default function Home() {
         <FinalCTA />
       </main>
       <Footer />
-      <MobileFloatingCTA />
       <ExitIntentModal />
     </>
   )
