@@ -77,7 +77,7 @@ function FAQItem({ faq, isOpen, onToggle }: {
 }
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0)
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-60px' })
 
