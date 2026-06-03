@@ -68,8 +68,8 @@ export const products: Product[] = [
     ],
     examples: ['Step-by-step strategy guides', 'Niche playbooks', 'Industry reports', 'How-to PDF guides', 'Beginner blueprints', 'Expert frameworks'],
     idealFor: ['Coaches and consultants', 'Lifestyle and wellness creators', 'Business and finance influencers', 'Creators with 1,000+ engaged followers'],
-    priceRange: '£17 – £97',
-    timeToLaunch: '2–3 weeks',
+    priceRange: '£17 to £97',
+    timeToLaunch: '2 to 3 weeks',
   },
   {
     slug: 'digital-templates',
@@ -117,8 +117,8 @@ export const products: Product[] = [
     ],
     examples: ['Notion dashboards', 'Canva social media packs', 'Excel/Google Sheets trackers', 'Email swipe files', 'Content calendar systems', 'Client onboarding kits'],
     idealFor: ['Productivity and organisation creators', 'Business coaches', 'Social media managers', 'Freelancers and agency owners'],
-    priceRange: '£9 – £67',
-    timeToLaunch: '1–2 weeks',
+    priceRange: '£9 to £67',
+    timeToLaunch: '1 to 2 weeks',
   },
   {
     slug: 'brand-kits',
@@ -166,8 +166,8 @@ export const products: Product[] = [
     ],
     examples: ['Logo suites', 'Social media brand packs', 'Colour palette & font guides', 'Content creator starter kits', 'Business brand bundles', 'Niche-specific brand collections'],
     idealFor: ['Design and aesthetic creators', 'Business coaches and mentors', 'Lifestyle influencers', 'Creators whose audience includes entrepreneurs'],
-    priceRange: '£37 – £197',
-    timeToLaunch: '2–4 weeks',
+    priceRange: '£37 to £197',
+    timeToLaunch: '2 to 4 weeks',
   },
   {
     slug: 'interactive-apps',
@@ -215,8 +215,8 @@ export const products: Product[] = [
     ],
     examples: ['Revenue calculators', 'Habit & goal trackers', 'Audit tools', 'Quiz-based assessments', 'Pricing calculators', 'Progress dashboards'],
     idealFor: ['Business, finance and marketing creators', 'Coaches with data-driven frameworks', 'Creators with highly engaged, action-oriented audiences'],
-    priceRange: '£47 – £297',
-    timeToLaunch: '3–6 weeks',
+    priceRange: '£47 to £297',
+    timeToLaunch: '3 to 6 weeks',
   },
   {
     slug: 'custom-builds',
@@ -265,7 +265,7 @@ export const products: Product[] = [
     examples: ['Bespoke membership portals', 'Custom content hubs', 'Private community tools', 'Branded resource libraries', 'Proprietary frameworks', 'Exclusive creator platforms'],
     idealFor: ['Established creators with a clear vision', 'Brands ready to invest in a flagship product', 'Creators building a long-term digital business'],
     priceRange: 'Bespoke pricing',
-    timeToLaunch: '4–10 weeks',
+    timeToLaunch: '4 to 10 weeks',
   },
   {
     slug: 'online-courses',
@@ -313,8 +313,8 @@ export const products: Product[] = [
     ],
     examples: ['Video-based masterclasses', 'Self-paced learning programmes', 'Cohort courses with community', 'Mini-courses and workshops', 'Certification programmes', 'Group coaching curricula'],
     idealFor: ['Coaches, educators and mentors', 'Creators with deep niche expertise', 'Influencers with a highly engaged and motivated audience', 'Anyone who has been asked "do you have a course?" more than once'],
-    priceRange: '£97 – £997+',
-    timeToLaunch: '4–8 weeks',
+    priceRange: '£97 to £997+',
+    timeToLaunch: '4 to 8 weeks',
   },
 ]
 
