@@ -45,7 +45,7 @@ export default function FeaturesSection() {
   return (
     <section
       id="features"
-      className="relative py-24 md:py-32 bg-[#111111]/40"
+      className="relative py-24 md:py-32"
       aria-labelledby="features-title"
     >
       <div
