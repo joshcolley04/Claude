@@ -32,7 +32,7 @@ export default function ProductPage({ product }: { product: Product }) {
       {/* Nav bar */}
       <nav className="fixed top-2 left-4 right-4 z-50 glass-strong rounded-2xl px-5 py-4 flex items-center justify-between">
         <Link
-          href="/"
+          href="/#product-types"
           className="inline-flex items-center gap-2 text-white/50 hover:text-white text-sm font-medium transition-colors"
         >
           <ArrowLeft size={15} />
@@ -315,7 +315,7 @@ export default function ProductPage({ product }: { product: Product }) {
       {/* Footer */}
       <footer className="border-t border-white/5 py-8 px-6">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <Link href="/" className="text-white/30 hover:text-white/60 text-sm transition-colors">
+          <Link href="/#product-types" className="text-white/30 hover:text-white/60 text-sm transition-colors">
             ← Back to The Digital Product Blueprint™
           </Link>
           <p className="text-white/20 text-xs">© {new Date().getFullYear()} The Digital Product Blueprint™</p>
