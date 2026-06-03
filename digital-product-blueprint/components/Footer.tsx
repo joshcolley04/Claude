@@ -14,6 +14,16 @@ export default function Footer() {
             </p>
           </div>
 
+          <div className="text-center">
+            <p className="text-white/25 text-xs mb-1">For personal enquiries</p>
+            <a
+              href="mailto:Scale@JoshScalesInnovations.com"
+              className="text-white/40 hover:text-blue-400 text-xs transition-colors duration-200"
+            >
+              Scale@JoshScalesInnovations.com
+            </a>
+          </div>
+
           <p className="text-white/20 text-xs">
             © {currentYear} The Digital Product Blueprint™. All rights reserved.
           </p>
