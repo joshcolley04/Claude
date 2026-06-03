@@ -11,7 +11,7 @@ const steps = [
     title: 'Discovery Call',
     tagline: 'We listen before we build',
     description:
-      'We start with a free 30-minute strategy session to understand your audience, your brand, and your goals. No templates, no assumptions, just a focused conversation about where you are and where you want to go. By the end, you\'ll have clarity on which digital product fits your audience best and a realistic picture of your revenue potential.',
+      'We start with a free 30 minute strategy session to understand your audience, your brand, and your goals. No templates, no assumptions, just a focused conversation about where you are and where you want to go. By the end, you\'ll have clarity on which digital product fits your audience best and a realistic picture of your revenue potential.',
     details: ['Audience analysis', 'Monetisation opportunity mapping', 'Product fit assessment', 'Revenue projection walkthrough'],
     color: 'from-blue-600/20 to-blue-500/5',
     border: 'border-blue-500/25',
@@ -51,10 +51,10 @@ const steps = [
     number: '04',
     icon: Rocket,
     title: 'Deliver & Launch',
-    tagline: 'From zero to revenue-generating',
+    tagline: 'From zero to revenue generating',
     description:
-      'We don\'t hand you a product and disappear. We deploy the full delivery system, provide launch assets, and support your go-live with strategy and optimisation. Your product goes live with everything in place including payment processing, automated fulfilment, and post-purchase sequences, so revenue starts from day one.',
-    details: ['Full deployment & go-live support', 'Launch content & assets', 'Post-purchase automation', 'Ongoing optimisation support'],
+      'We don\'t hand you a product and disappear. We deploy the full delivery system, provide launch assets, and support your go live with strategy and optimisation. Your product goes live with everything in place including payment processing, automated fulfilment, and post purchase sequences, so revenue starts from day one.',
+    details: ['Full deployment & go live support', 'Launch content & assets', 'Post purchase automation', 'Ongoing optimisation support'],
     color: 'from-cyan-600/20 to-cyan-500/5',
     border: 'border-cyan-500/25',
     iconBg: 'bg-cyan-500/15',

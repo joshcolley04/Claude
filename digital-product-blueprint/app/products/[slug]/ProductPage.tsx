@@ -279,7 +279,7 @@ export default function ProductPage({ product }: { product: Product }) {
           </h2>
 
           <p className="text-white/55 text-lg leading-relaxed mb-4 max-w-xl mx-auto">
-            Book a free 30-minute strategy call and let's map out exactly how we'd build your{' '}
+            Book a free 30 minute strategy call and let's map out exactly how we'd build your{' '}
             <span className="text-white font-medium">{product.tag.toLowerCase()}</span> and get it in front of your audience.
           </p>
 
@@ -302,7 +302,7 @@ export default function ProductPage({ product }: { product: Product }) {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-6 mt-8">
-            {['Free 30-min call', 'No obligation', 'Google Meet'].map((point) => (
+            {['Free 30 min call', 'No obligation', 'Google Meet'].map((point) => (
               <div key={point} className="flex items-center gap-2 text-white/35 text-sm">
                 <Check size={13} className="text-blue-400" aria-hidden="true" />
                 {point}

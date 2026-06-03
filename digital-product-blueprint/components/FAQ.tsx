@@ -8,7 +8,7 @@ const faqs = [
   {
     question: 'Do I need a product already?',
     answer:
-      'Not at all. That\'s precisely why we exist. You bring your audience and your personal brand, we handle ideation, creation, and everything in between. Our strategy sessions start by understanding your audience deeply so we can identify the highest-converting product opportunity for your specific niche.',
+      'Not at all. That\'s precisely why we exist. You bring your audience and your personal brand, we handle ideation, creation, and everything in between. Our strategy sessions start by understanding your audience deeply so we can identify the highest converting product opportunity for your specific niche.',
   },
   {
     question: 'What types of products can you create?',
@@ -158,7 +158,7 @@ export default function FAQ() {
                   'You want full creative control over every single detail',
                   'You\'re looking for a get-rich-quick scheme with no effort',
                   'You\'re not willing to promote the product to your audience',
-                  'You already have a team building products in-house',
+                  'You already have a team building products in house',
                   'You\'re not ready to have a conversation about your goals',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm text-white/65 leading-relaxed">

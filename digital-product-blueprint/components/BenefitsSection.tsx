@@ -14,7 +14,7 @@ const challenges = [
 ]
 
 const solutions = [
-  'Done-for-you product creation',
+  'Done for you product creation',
   'Premium digital products built for you',
   'Fully automated delivery pipeline',
   'Revenue partnership model',

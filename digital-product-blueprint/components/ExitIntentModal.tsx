@@ -91,7 +91,7 @@ export default function ExitIntentModal() {
               </h3>
 
               <p className="text-white/55 text-sm leading-relaxed mb-8">
-                Don't leave without booking your free 30-minute strategy call. Discover exactly
+                Don't leave without booking your free 30 minute strategy call. Discover exactly
                 how your audience could generate recurring digital product revenue, built entirely for you.
               </p>
 

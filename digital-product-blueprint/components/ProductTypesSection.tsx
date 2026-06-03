@@ -28,9 +28,9 @@ const products = [
     slug: 'digital-templates',
     icon: Layout,
     tag: 'Digital Templates',
-    headline: "Done-For-Them Tools They'll Actually Use",
+    headline: "Done For Them Tools They'll Actually Use",
     description:
-      'Templates are one of the highest-converting digital products because the value is instant. Your audience buys once and gets results immediately.',
+      'Templates are one of the highest converting digital products because the value is instant. Your audience buys once and gets results immediately.',
     painPoints: [
       "Your followers want results but don't know where to start",
       'You need a product that sells itself with minimal explanation',
@@ -66,12 +66,12 @@ const products = [
     tag: 'Interactive Apps',
     headline: 'Tools That Keep Them Coming Back',
     description:
-      'Interactive tools are the most shared and bookmarked products online. They drive word-of-mouth, position you as an authority and justify premium pricing.',
+      'Interactive tools are the most shared and bookmarked products online. They drive word of mouth, position you as an authority and justify premium pricing.',
     painPoints: [
       'You want a product that feels premium and justifies a higher price',
       'Static PDFs aren\'t cutting it, your audience wants something interactive',
     ],
-    examples: ['Revenue calculators', 'Habit & goal trackers', 'Audit tools', 'Quiz-based assessments'],
+    examples: ['Revenue calculators', 'Habit & goal trackers', 'Audit tools', 'Quiz based assessments'],
     color: 'from-cyan-600/15 to-transparent',
     border: 'border-cyan-500/20',
     iconBg: 'bg-cyan-500/15',
@@ -87,7 +87,7 @@ const products = [
       'Have an idea that doesn\'t fit a template? We build it from scratch, engineered entirely around your audience. If you can describe it, we can build it.',
     painPoints: [
       'You have a product idea but no idea how to build it',
-      'Off-the-shelf products don\'t reflect your brand or audience\'s needs',
+      'Off the shelf products don\'t reflect your brand or audience\'s needs',
     ],
     examples: ['Membership portals', 'Custom content hubs', 'Private community tools', 'Branded resource libraries'],
     color: 'from-orange-600/15 to-transparent',
@@ -100,14 +100,14 @@ const products = [
     slug: 'online-courses',
     icon: GraduationCap,
     tag: 'Online Courses',
-    headline: 'The Highest-Ticket Product in Your Arsenal',
+    headline: 'The Highest Ticket Product in Your Arsenal',
     description:
       'Online courses command the highest price points of any digital product. We handle curriculum, production, platform setup and launch, you just show up and teach.',
     painPoints: [
       'You know you could charge more but don\'t have the infrastructure',
       'Building a course feels overwhelming, you don\'t know where to start',
     ],
-    examples: ['Video masterclasses', 'Self-paced programmes', 'Cohort courses', 'Mini-courses & workshops'],
+    examples: ['Video masterclasses', 'Self paced programmes', 'Cohort courses', 'Mini courses & workshops'],
     color: 'from-emerald-600/15 to-transparent',
     border: 'border-emerald-500/20',
     iconBg: 'bg-emerald-500/15',

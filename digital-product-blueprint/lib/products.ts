@@ -47,11 +47,11 @@ export const products: Product[] = [
       },
       {
         title: 'Professional Copywriting',
-        description: 'Our team writes the content in your voice, covering every section with depth and clarity that positions you as the go-to authority.',
+        description: 'Our team writes the content in your voice, covering every section with depth and clarity that positions you as the go to authority.',
       },
       {
         title: 'Premium Design & Layout',
-        description: 'A fully designed, branded PDF that looks and feels high-end, not a Google Doc export. Visuals, typography and layout all handled.',
+        description: 'A fully designed, branded PDF that looks and feels high end, not a Google Doc export. Visuals, typography and layout all handled.',
       },
       {
         title: 'Automated Delivery System',
@@ -59,14 +59,14 @@ export const products: Product[] = [
       },
       {
         title: 'Sales Page Copy',
-        description: 'A conversion-optimised sales page written to turn your audience into buyers, with headline, benefits, social proof sections and CTAs.',
+        description: 'A conversion optimised sales page written to turn your audience into buyers, with headline, benefits, social proof sections and CTAs.',
       },
       {
         title: 'Launch Strategy',
-        description: 'A proven launch plan with email sequences, social content prompts and timing strategy to maximise your first-week revenue.',
+        description: 'A proven launch plan with email sequences, social content prompts and timing strategy to maximise your first week revenue.',
       },
     ],
-    examples: ['Step-by-step strategy guides', 'Niche playbooks', 'Industry reports', 'How-to PDF guides', 'Beginner blueprints', 'Expert frameworks'],
+    examples: ['Step by step strategy guides', 'Niche playbooks', 'Industry reports', 'How to PDF guides', 'Beginner blueprints', 'Expert frameworks'],
     idealFor: ['Coaches and consultants', 'Lifestyle and wellness creators', 'Business and finance influencers', 'Creators with 1,000+ engaged followers'],
     priceRange: '£17 to £97',
     timeToLaunch: '2 to 3 weeks',
@@ -74,10 +74,10 @@ export const products: Product[] = [
   {
     slug: 'digital-templates',
     tag: 'Digital Templates',
-    headline: "Done-For-Them Tools They'll Actually Use",
+    headline: "Done For Them Tools They'll Actually Use",
     subheadline: 'Templates sell themselves, because they solve an immediate problem the moment someone downloads them.',
     description:
-      'Digital templates are one of the most consistently purchased products online because the value is instant and obvious. Your audience gets a ready-to-use tool that saves them hours of work. We design, build and deliver templates that are polished, on-brand, and priced to convert, whether it\'s Notion, Canva, Excel or something bespoke.',
+      'Digital templates are one of the most consistently purchased products online because the value is instant and obvious. Your audience gets a ready to use tool that saves them hours of work. We design, build and deliver templates that are polished, on brand, and priced to convert, whether it\'s Notion, Canva, Excel or something bespoke.',
     color: 'from-indigo-600/15 to-transparent',
     border: 'border-indigo-500/20',
     iconBg: 'bg-indigo-500/15',
@@ -126,7 +126,7 @@ export const products: Product[] = [
     headline: 'Help Your Audience Look the Part',
     subheadline: 'Give your followers a complete visual identity, and they\'ll credit you every time they use it.',
     description:
-      'Every entrepreneur, small business owner and creator in your audience wants to look polished and professional, but most can\'t afford a designer. Brand kits give them everything they need in one purchase. We design premium, ready-to-use brand packages that your audience will rave about, share online, and come back to buy again.',
+      'Every entrepreneur, small business owner and creator in your audience wants to look polished and professional, but most can\'t afford a designer. Brand kits give them everything they need in one purchase. We design premium, ready to use brand packages that your audience will rave about, share online, and come back to buy again.',
     color: 'from-violet-600/15 to-transparent',
     border: 'border-violet-500/20',
     iconBg: 'bg-violet-500/15',
@@ -161,10 +161,10 @@ export const products: Product[] = [
       },
       {
         title: 'Mockup & Preview Assets',
-        description: 'Professional product mockups for your sales page and social content, showing the kit applied to real-world scenarios.',
+        description: 'Professional product mockups for your sales page and social content, showing the kit applied to real world scenarios.',
       },
     ],
-    examples: ['Logo suites', 'Social media brand packs', 'Colour palette & font guides', 'Content creator starter kits', 'Business brand bundles', 'Niche-specific brand collections'],
+    examples: ['Logo suites', 'Social media brand packs', 'Colour palette & font guides', 'Content creator starter kits', 'Business brand bundles', 'Niche specific brand collections'],
     idealFor: ['Design and aesthetic creators', 'Business coaches and mentors', 'Lifestyle influencers', 'Creators whose audience includes entrepreneurs'],
     priceRange: '£37 to £197',
     timeToLaunch: '2 to 4 weeks',
@@ -175,7 +175,7 @@ export const products: Product[] = [
     headline: 'Tools That Keep Them Coming Back',
     subheadline: 'Interactive digital tools are the most shared, bookmarked and recommended products online.',
     description:
-      'A well-built interactive tool positions you as a serious authority and gives your audience something they can\'t get anywhere else. Calculators, trackers, audit tools and assessment apps drive word-of-mouth because people share useful things. We build these end-to-end, design, development, hosting and delivery all handled.',
+      'A well-built interactive tool positions you as a serious authority and gives your audience something they can\'t get anywhere else. Calculators, trackers, audit tools and assessment apps drive word of mouth because people share useful things. We build these end-to-end, design, development, hosting and delivery all handled.',
     color: 'from-cyan-600/15 to-transparent',
     border: 'border-cyan-500/20',
     iconBg: 'bg-cyan-500/15',
@@ -194,7 +194,7 @@ export const products: Product[] = [
       },
       {
         title: 'Full Development & Build',
-        description: 'Complete front-end development of your interactive tool, responsive, fast, and built to work flawlessly on mobile and desktop.',
+        description: 'Complete front end development of your interactive tool, responsive, fast, and built to work flawlessly on mobile and desktop.',
       },
       {
         title: 'Branded Interface',
@@ -210,11 +210,11 @@ export const products: Product[] = [
       },
       {
         title: 'Shareable Results Feature',
-        description: 'Built-in sharing functionality so users can share their results on social media, driving organic exposure back to your brand and product.',
+        description: 'Built in sharing functionality so users can share their results on social media, driving organic exposure back to your brand and product.',
       },
     ],
     examples: ['Revenue calculators', 'Habit & goal trackers', 'Audit tools', 'Quiz-based assessments', 'Pricing calculators', 'Progress dashboards'],
-    idealFor: ['Business, finance and marketing creators', 'Coaches with data-driven frameworks', 'Creators with highly engaged, action-oriented audiences'],
+    idealFor: ['Business, finance and marketing creators', 'Coaches with data driven frameworks', 'Creators with highly engaged, action oriented audiences'],
     priceRange: '£47 to £297',
     timeToLaunch: '3 to 6 weeks',
   },
@@ -233,7 +233,7 @@ export const products: Product[] = [
     glowColor: 'rgba(249,115,22,0.15)',
     painPoints: [
       'You have a specific product idea but no idea how to build it',
-      'Off-the-shelf products don\'t reflect your brand or your audience\'s needs',
+      'Off the shelf products don\'t reflect your brand or your audience\'s needs',
       'You want something proprietary that competitors can\'t easily replicate',
     ],
     whatsIncluded: [
@@ -258,19 +258,19 @@ export const products: Product[] = [
         description: 'Seamless payment processing and secure access control so customers buy, receive access, and get inside your product without friction.',
       },
       {
-        title: 'Post-Launch Support',
+        title: 'Post Launch Support',
         description: 'We don\'t disappear after launch. Ongoing support, bug fixes and iteration are included so your product keeps improving over time.',
       },
     ],
     examples: ['Bespoke membership portals', 'Custom content hubs', 'Private community tools', 'Branded resource libraries', 'Proprietary frameworks', 'Exclusive creator platforms'],
-    idealFor: ['Established creators with a clear vision', 'Brands ready to invest in a flagship product', 'Creators building a long-term digital business'],
+    idealFor: ['Established creators with a clear vision', 'Brands ready to invest in a flagship product', 'Creators building a long term digital business'],
     priceRange: 'Bespoke pricing',
     timeToLaunch: '4 to 10 weeks',
   },
   {
     slug: 'online-courses',
     tag: 'Online Courses',
-    headline: 'The Highest-Ticket Product in Your Arsenal',
+    headline: 'The Highest Ticket Product in Your Arsenal',
     subheadline: 'Online courses command the highest price points of any digital product, and the results to back it up.',
     description:
       'A professionally built online course transforms your audience\'s lives and your revenue at the same time. We handle curriculum design, production support, platform setup, branding, and automated delivery, so you can focus on delivering genuine value while we engineer everything around it for maximum sales and completion rates.',
@@ -304,14 +304,14 @@ export const products: Product[] = [
       },
       {
         title: 'Student Onboarding Sequence',
-        description: 'An automated welcome sequence that gets students engaged, excited and moving through the course from day one, reducing drop-off rates.',
+        description: 'An automated welcome sequence that gets students engaged, excited and moving through the course from day one, reducing drop off rates.',
       },
       {
         title: 'Launch Campaign Assets',
         description: 'Full launch email sequence, sales page copy, social content plan and countdown strategy, everything you need to have a successful launch week.',
       },
     ],
-    examples: ['Video-based masterclasses', 'Self-paced learning programmes', 'Cohort courses with community', 'Mini-courses and workshops', 'Certification programmes', 'Group coaching curricula'],
+    examples: ['Video based masterclasses', 'Self paced learning programmes', 'Cohort courses with community', 'Mini courses and workshops', 'Certification programmes', 'Group coaching curricula'],
     idealFor: ['Coaches, educators and mentors', 'Creators with deep niche expertise', 'Influencers with a highly engaged and motivated audience', 'Anyone who has been asked "do you have a course?" more than once'],
     priceRange: '£97 to £997+',
     timeToLaunch: '4 to 8 weeks',

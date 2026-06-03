@@ -75,7 +75,7 @@ export default function FinalCTA() {
           className="text-white/50 text-xl max-w-2xl mx-auto mb-12 leading-relaxed"
         >
           Book your free strategy call today and discover exactly how we can turn
-          your audience into a revenue-generating digital product business.
+          your audience into a revenue generating digital product business.
         </motion.p>
 
         <motion.div
@@ -113,7 +113,7 @@ export default function FinalCTA() {
           transition={{ duration: 0.7, delay: 0.5 }}
           className="text-white/25 text-sm mt-8"
         >
-          Free 30-minute session · No obligation · No credit card required
+          Free 30 minute session, No obligation, No credit card required
         </motion.p>
       </div>
     </section>
