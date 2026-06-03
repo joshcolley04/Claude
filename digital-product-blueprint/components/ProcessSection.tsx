@@ -70,25 +70,47 @@ function StepCard({ step, index, inView, shouldReduce }: {
   shouldReduce: boolean | null
 }) {
   const Icon = step.icon
-  const isEven = index % 2 === 0
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: isEven ? -40 : 40 }}
+      initial={{ opacity: 0, x: -40 }}
       animate={inView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.7, delay: 0.15 + index * 0.15, ease: 'easeOut' }}
       className="relative grid md:grid-cols-2 gap-8 md:gap-16 items-center"
     >
-      {/* Step number — large background text */}
-      <div
-        className={`absolute -top-6 ${isEven ? 'left-0' : 'right-0 text-right'} text-[120px] md:text-[160px] font-black leading-none select-none pointer-events-none ${step.numberColor} hidden md:block`}
-        aria-hidden="true"
-      >
-        {step.number}
+      {/* Circle icon — always on the left (col-1) */}
+      <div className="hidden md:flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.7 }}
+          animate={inView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.3 + index * 0.15, ease: 'easeOut' }}
+          className="relative flex items-center justify-center"
+        >
+          <div
+            className={`w-28 h-28 rounded-full border ${step.border} flex items-center justify-center`}
+            style={{ background: `radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%)` }}
+          >
+            <div className={`w-16 h-16 rounded-full ${step.iconBg} border ${step.border} flex items-center justify-center`}>
+              <Icon size={28} className={step.iconColor} aria-hidden="true" />
+            </div>
+          </div>
+          {!shouldReduce && (
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 6 + index, repeat: Infinity, ease: 'linear' }}
+            >
+              <div
+                className={`w-2.5 h-2.5 rounded-full ${step.iconBg} border ${step.border}`}
+                style={{ transform: 'translateY(-68px)' }}
+              />
+            </motion.div>
+          )}
+        </motion.div>
       </div>
 
-      {/* Card — alternates sides on desktop */}
-      <div className={`${isEven ? 'md:col-start-1' : 'md:col-start-2'} relative`}>
+      {/* Card — always on the right (col-2) */}
+      <div className="relative">
         <motion.div
           whileHover={shouldReduce ? {} : { y: -4, borderColor: 'rgba(59,130,246,0.3)' }}
           transition={{ duration: 0.25 }}
@@ -100,8 +122,16 @@ function StepCard({ step, index, inView, shouldReduce }: {
             aria-hidden="true"
           />
 
+          {/* Large number watermark — inside the card, top right */}
+          <div
+            className={`absolute -top-2 right-3 text-[90px] font-black leading-none select-none pointer-events-none ${step.numberColor}`}
+            aria-hidden="true"
+          >
+            {step.number}
+          </div>
+
           <div className="relative z-10">
-            {/* Icon + step number */}
+            {/* Icon + step label */}
             <div className="flex items-center gap-4 mb-5">
               <div className={`w-12 h-12 rounded-xl ${step.iconBg} flex items-center justify-center flex-shrink-0`}>
                 <Icon size={22} className={step.iconColor} aria-hidden="true" />
@@ -132,40 +162,6 @@ function StepCard({ step, index, inView, shouldReduce }: {
               ))}
             </div>
           </div>
-        </motion.div>
-      </div>
-
-      {/* Connector visual — opposite side */}
-      <div className={`${isEven ? 'md:col-start-2' : 'md:col-start-1 md:row-start-1'} hidden md:flex items-center justify-center`}>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.7 }}
-          animate={inView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.3 + index * 0.15, ease: 'easeOut' }}
-          className="relative flex items-center justify-center"
-        >
-          {/* Outer ring */}
-          <div className={`w-28 h-28 rounded-full border ${step.border} flex items-center justify-center`}
-            style={{ background: `radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%)` }}
-          >
-            {/* Inner circle */}
-            <div className={`w-16 h-16 rounded-full ${step.iconBg} border ${step.border} flex items-center justify-center`}>
-              <Icon size={28} className={step.iconColor} aria-hidden="true" />
-            </div>
-          </div>
-
-          {/* Orbiting dot — rotates a wrapper div, dot offset to sit just outside the ring */}
-          {!shouldReduce && (
-            <motion.div
-              className="absolute inset-0 flex items-center justify-center"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 6 + index, repeat: Infinity, ease: 'linear' }}
-            >
-              <div
-                className={`w-2.5 h-2.5 rounded-full ${step.iconBg} border ${step.border}`}
-                style={{ transform: 'translateY(-68px)' }}
-              />
-            </motion.div>
-          )}
         </motion.div>
       </div>
     </motion.div>
