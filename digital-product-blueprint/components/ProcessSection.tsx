@@ -102,7 +102,7 @@ function StepCard({ step, index, inView, shouldReduce }: {
 
           <div className="relative z-10">
             <div className="flex items-center gap-4 mb-5">
-              <div className="relative flex-shrink-0 flex items-center justify-center w-12 h-12">
+              <div className="relative flex-shrink-0 flex items-center justify-center w-[76px] h-[76px]">
                 <div className={`w-12 h-12 rounded-xl ${step.iconBg} flex items-center justify-center`}>
                   <Icon size={22} className={step.iconColor} aria-hidden="true" />
                 </div>
@@ -115,7 +115,7 @@ function StepCard({ step, index, inView, shouldReduce }: {
                   >
                     <div
                       className={`w-2 h-2 rounded-full ${step.iconBg} border ${step.border}`}
-                      style={{ transform: 'translateY(-40px)' }}
+                      style={{ transform: 'translateY(-35px)' }}
                     />
                   </motion.div>
                 )}
