@@ -106,9 +106,29 @@ export default function RevenueCalculator() {
                   <label htmlFor={slider.id} className="text-white/60 text-xs font-semibold tracking-widest uppercase">
                     {slider.label}
                   </label>
-                  <span className="text-white font-bold text-xl tabular-nums">
-                    {slider.format(slider.value)}
-                  </span>
+                  {slider.id === 'product-price' ? (
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => slider.onChange(Math.max(slider.min, slider.value - 1))}
+                        className="w-8 h-8 rounded-lg bg-white/8 hover:bg-white/15 border border-white/10 text-white/70 hover:text-white text-lg font-bold flex items-center justify-center transition-colors"
+                        aria-label="Decrease price by £1"
+                      >−</button>
+                      <span className="text-white font-bold text-xl tabular-nums min-w-[64px] text-center">
+                        {slider.format(slider.value)}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => slider.onChange(Math.min(slider.max, slider.value + 1))}
+                        className="w-8 h-8 rounded-lg bg-white/8 hover:bg-white/15 border border-white/10 text-white/70 hover:text-white text-lg font-bold flex items-center justify-center transition-colors"
+                        aria-label="Increase price by £1"
+                      >+</button>
+                    </div>
+                  ) : (
+                    <span className="text-white font-bold text-xl tabular-nums">
+                      {slider.format(slider.value)}
+                    </span>
+                  )}
                 </div>
                 <input
                   id={slider.id}
