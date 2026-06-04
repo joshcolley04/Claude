@@ -102,8 +102,23 @@ function StepCard({ step, index, inView, shouldReduce }: {
 
           <div className="relative z-10">
             <div className="flex items-center gap-4 mb-5">
-              <div className={`w-12 h-12 rounded-xl ${step.iconBg} flex items-center justify-center flex-shrink-0`}>
-                <Icon size={22} className={step.iconColor} aria-hidden="true" />
+              <div className="relative flex-shrink-0 flex items-center justify-center w-12 h-12">
+                <div className={`w-12 h-12 rounded-xl ${step.iconBg} flex items-center justify-center`}>
+                  <Icon size={22} className={step.iconColor} aria-hidden="true" />
+                </div>
+                {!shouldReduce && (
+                  <motion.div
+                    className="absolute inset-0 flex items-center justify-center md:hidden"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 6 + index, repeat: Infinity, ease: 'linear' }}
+                    aria-hidden="true"
+                  >
+                    <div
+                      className={`w-2 h-2 rounded-full ${step.iconBg} border ${step.border}`}
+                      style={{ transform: 'translateY(-28px)' }}
+                    />
+                  </motion.div>
+                )}
               </div>
               <span className={`text-sm font-bold tracking-widest uppercase ${step.iconColor} opacity-70`}>
                 Step {step.number}
@@ -133,8 +148,8 @@ function StepCard({ step, index, inView, shouldReduce }: {
         </motion.div>
       </div>
 
-      {/* Circle — opposite side to card on desktop, above card on mobile */}
-      <div className={`${isEven ? 'md:col-start-2' : 'md:col-start-1 md:row-start-1'} flex items-center justify-center`}>
+      {/* Circle — opposite side to card */}
+      <div className={`${isEven ? 'md:col-start-2' : 'md:col-start-1 md:row-start-1'} hidden md:flex items-center justify-center`}>
         <motion.div
           initial={{ opacity: 0, scale: 0.7 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
