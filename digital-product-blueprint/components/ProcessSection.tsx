@@ -115,7 +115,7 @@ function StepCard({ step, index, inView, shouldReduce }: {
                   >
                     <div
                       className={`w-2 h-2 rounded-full ${step.iconBg} border ${step.border}`}
-                      style={{ transform: 'translateY(-28px)' }}
+                      style={{ transform: 'translateY(-40px)' }}
                     />
                   </motion.div>
                 )}
