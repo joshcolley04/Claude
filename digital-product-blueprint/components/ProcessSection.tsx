@@ -133,8 +133,8 @@ function StepCard({ step, index, inView, shouldReduce }: {
         </motion.div>
       </div>
 
-      {/* Circle — opposite side to card */}
-      <div className={`${isEven ? 'md:col-start-2' : 'md:col-start-1 md:row-start-1'} hidden md:flex items-center justify-center`}>
+      {/* Circle — opposite side to card on desktop, above card on mobile */}
+      <div className={`${isEven ? 'md:col-start-2' : 'md:col-start-1 md:row-start-1'} flex items-center justify-center`}>
         <motion.div
           initial={{ opacity: 0, scale: 0.7 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
