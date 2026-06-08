@@ -106,22 +106,22 @@ export default function RevenueCalculator() {
                   <label htmlFor={slider.id} className="text-white/60 text-xs font-semibold tracking-widest uppercase">
                     {slider.label}
                   </label>
-                  {slider.id === 'product-price' ? (
+                  {(slider.id === 'product-price' || slider.id === 'audience-size') ? (
                     <div className="flex items-center gap-2">
                       <button
                         type="button"
-                        onClick={() => slider.onChange(Math.max(slider.min, slider.value - 1))}
+                        onClick={() => slider.onChange(Math.max(slider.min, slider.value - slider.step))}
                         className="w-8 h-8 rounded-lg bg-white/8 hover:bg-white/15 border border-white/10 text-white/70 hover:text-white text-lg font-bold flex items-center justify-center transition-colors"
-                        aria-label="Decrease price by £1"
+                        aria-label={`Decrease ${slider.label}`}
                       >−</button>
-                      <span className="text-white font-bold text-xl tabular-nums min-w-[64px] text-center">
+                      <span className="text-white font-bold text-xl tabular-nums min-w-[80px] text-center">
                         {slider.format(slider.value)}
                       </span>
                       <button
                         type="button"
-                        onClick={() => slider.onChange(Math.min(slider.max, slider.value + 1))}
+                        onClick={() => slider.onChange(Math.min(slider.max, slider.value + slider.step))}
                         className="w-8 h-8 rounded-lg bg-white/8 hover:bg-white/15 border border-white/10 text-white/70 hover:text-white text-lg font-bold flex items-center justify-center transition-colors"
-                        aria-label="Increase price by £1"
+                        aria-label={`Increase ${slider.label}`}
                       >+</button>
                     </div>
                   ) : (
