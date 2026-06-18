@@ -316,6 +316,55 @@ export const products: Product[] = [
     priceRange: '£97 to £997+',
     timeToLaunch: '1 to 2 weeks',
   },
+  {
+    slug: 'one-to-one-mentorship',
+    tag: '1:1 Mentorship',
+    headline: 'The Highest Paid Product You Will Ever Sell',
+    subheadline: 'Direct access to you is the most valuable thing your audience can buy. We build the system that makes it scalable and premium.',
+    description:
+      'One to one mentorship commands the highest price points of any digital product because people are not just buying information, they are buying your time, your attention, and your ability to solve their specific problem. We build the entire framework around your mentorship offer so it is structured, premium and positions you as the go to authority in your space.',
+    color: 'from-red-600/15 to-transparent',
+    border: 'border-red-500/20',
+    iconBg: 'bg-red-500/15',
+    iconColor: 'text-red-400',
+    tagColor: 'text-red-400 bg-red-500/10 border-red-500/20',
+    glowColor: 'rgba(239,68,68,0.15)',
+    painPoints: [
+      'You know your time is valuable but you have no structure around selling it',
+      'You want to charge premium prices but lack the framework to justify them',
+      'You are ready to work closely with clients but do not know how to position it professionally',
+    ],
+    whatsIncluded: [
+      {
+        title: 'Mentorship Offer Design',
+        description: 'We define exactly what your one to one mentorship includes, session structure, duration, deliverables and outcomes, so clients know precisely what they are investing in.',
+      },
+      {
+        title: 'Premium Pricing Strategy',
+        description: 'We build a pricing architecture that reflects the true value of your time and positions your mentorship at the top end of your market without apology.',
+      },
+      {
+        title: 'Application & Vetting System',
+        description: 'A professional application process that filters for the right clients, builds perceived exclusivity, and means you only work with people you can genuinely help.',
+      },
+      {
+        title: 'Onboarding & Client Experience',
+        description: 'A fully automated onboarding sequence, welcome pack and client portal so every mentee starts their journey feeling like they have made the best investment of their life.',
+      },
+      {
+        title: 'Sales Page & Positioning Copy',
+        description: 'A high converting sales page written to attract serious buyers, not tyre kickers, with positioning that commands premium rates and repels the wrong fit clients.',
+      },
+      {
+        title: 'Ongoing Support Framework',
+        description: 'Templates, check in structures and progress tracking tools so your mentorship delivers consistent, measurable results that your clients shout about publicly.',
+      },
+    ],
+    examples: ['Private one to one coaching programmes', 'Done with you strategy sessions', 'Weekly mentorship retainers', 'VIP intensive days', 'Accountability and advisory packages', 'High ticket transformation programmes'],
+    idealFor: ['Coaches and consultants ready to go premium', 'Creators with proven expertise and a loyal audience', 'Personal brands who want to charge what they are actually worth', 'Anyone who has been asked for personal help more times than they can count'],
+    priceRange: '£500 to £5,000+',
+    timeToLaunch: '1 to 2 weeks',
+  },
 ]
 
 export function getProductBySlug(slug: string): Product | undefined {

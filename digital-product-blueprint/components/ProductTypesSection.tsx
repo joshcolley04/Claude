@@ -2,7 +2,7 @@
 
 import { useRef } from 'react'
 import { motion, useInView, useReducedMotion } from 'framer-motion'
-import { BookOpen, Layout, Palette, Cpu, Wrench, GraduationCap, ArrowRight } from 'lucide-react'
+import { BookOpen, Layout, Palette, Cpu, Wrench, GraduationCap, Users, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 
 const products = [
@@ -114,6 +114,24 @@ const products = [
     iconColor: 'text-emerald-400',
     tagColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
   },
+  {
+    slug: 'one-to-one-mentorship',
+    icon: Users,
+    tag: '1:1 Mentorship',
+    headline: 'The Highest Paid Product You Will Ever Sell',
+    description:
+      'Direct access to you is the most valuable thing your audience can buy. We build the entire premium framework around your mentorship so you can charge what you are actually worth.',
+    painPoints: [
+      'You know your time is valuable but have no structure around selling it',
+      'You want to charge premium prices but lack the framework to justify them',
+    ],
+    examples: ['Private coaching programmes', 'VIP intensive days', 'Weekly mentorship retainers', 'High ticket transformation packages'],
+    color: 'from-red-600/15 to-transparent',
+    border: 'border-red-500/20',
+    iconBg: 'bg-red-500/15',
+    iconColor: 'text-red-400',
+    tagColor: 'text-red-400 bg-red-500/10 border-red-500/20',
+  },
 ]
 
 export default function ProductTypesSection() {
@@ -150,7 +168,7 @@ export default function ProductTypesSection() {
             className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
-            Six Types of Digital Products
+            Seven Types of Digital Products
             <br />
             <span className="gradient-text">Built Around Your Audience</span>
           </h2>
