@@ -270,8 +270,8 @@ export const products: Product[] = [
   {
     slug: 'online-courses',
     tag: 'Online Courses',
-    headline: 'The Highest Ticket Product in Your Arsenal',
-    subheadline: 'Online courses command the highest price points of any digital product, and the results to back it up.',
+    headline: 'Scale Your Expertise Into a Premium Learning Experience',
+    subheadline: 'Online courses let you teach your audience at scale, delivering real transformation without trading hours for pounds.',
     description:
       'A professionally built online course transforms your audience\'s lives and your revenue at the same time. We handle curriculum design, production support, platform setup, branding, and automated delivery, so you can focus on delivering genuine value while we engineer everything around it for maximum sales and completion rates.',
     color: 'from-emerald-600/15 to-transparent',
@@ -313,7 +313,7 @@ export const products: Product[] = [
     ],
     examples: ['Video based masterclasses', 'Self paced learning programmes', 'Cohort courses with community', 'Mini courses and workshops', 'Certification programmes', 'Group coaching curricula'],
     idealFor: ['Coaches, educators and mentors', 'Creators with deep niche expertise', 'Influencers with a highly engaged and motivated audience', 'Anyone who has been asked "do you have a course?" more than once'],
-    priceRange: '£97 to £997+',
+    priceRange: '£299 to £999+',
     timeToLaunch: '1 to 2 weeks',
   },
   {
@@ -362,7 +362,7 @@ export const products: Product[] = [
     ],
     examples: ['Private one to one coaching programmes', 'Done with you strategy sessions', 'Weekly mentorship retainers', 'VIP intensive days', 'Accountability and advisory packages', 'High ticket transformation programmes'],
     idealFor: ['Coaches and consultants ready to go premium', 'Creators with proven expertise and a loyal audience', 'Personal brands who want to charge what they are actually worth', 'Anyone who has been asked for personal help more times than they can count'],
-    priceRange: '£500 to £5,000+',
+    priceRange: '£999 to £4,999+',
     timeToLaunch: '1 to 2 weeks',
   },
 ]

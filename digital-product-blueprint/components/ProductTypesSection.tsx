@@ -100,7 +100,7 @@ const products = [
     slug: 'online-courses',
     icon: GraduationCap,
     tag: 'Online Courses',
-    headline: 'The Highest Ticket Product in Your Arsenal',
+    headline: 'Scale Your Expertise Into a Premium Learning Experience',
     description:
       'Online courses command the highest price points of any digital product. We handle curriculum, production, platform setup and launch, you just show up and teach.',
     painPoints: [
