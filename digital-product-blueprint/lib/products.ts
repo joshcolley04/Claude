@@ -314,7 +314,7 @@ export const products: Product[] = [
     examples: ['Video based masterclasses', 'Self paced learning programmes', 'Cohort courses with community', 'Mini courses and workshops', 'Certification programmes', 'Group coaching curricula'],
     idealFor: ['Coaches, educators and mentors', 'Creators with deep niche expertise', 'Influencers with a highly engaged and motivated audience', 'Anyone who has been asked "do you have a course?" more than once'],
     priceRange: '£299 to £999+',
-    timeToLaunch: '1 to 2 weeks',
+    timeToLaunch: '2 to 3 weeks',
   },
   {
     slug: 'one-to-one-mentorship',
@@ -363,7 +363,7 @@ export const products: Product[] = [
     examples: ['Private one to one coaching programmes', 'Done with you strategy sessions', 'Weekly mentorship retainers', 'VIP intensive days', 'Accountability and advisory packages', 'High ticket transformation programmes'],
     idealFor: ['Coaches and consultants ready to go premium', 'Creators with proven expertise and a loyal audience', 'Personal brands who want to charge what they are actually worth', 'Anyone who has been asked for personal help more times than they can count'],
     priceRange: '£999 to £4,999+',
-    timeToLaunch: '1 to 2 weeks',
+    timeToLaunch: '2 to 3 weeks',
   },
 ]
 
