@@ -23,7 +23,7 @@ const faqs = [
   {
     question: 'How long does it take?',
     answer:
-      'From your initial strategy call to a live, sellable product, the typical timeline is four to eight weeks depending on the product complexity. We move quickly without compromising on quality. You\'ll be kept updated throughout the entire build process.',
+      'From your initial strategy call to a live, sellable product, the typical timeline is two to three weeks depending on the product complexity. We move quickly without compromising on quality. You\'ll be kept updated throughout the entire build process.',
   },
   {
     question: 'Who is this for?',
