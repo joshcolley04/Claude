@@ -27,14 +27,15 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  accounts        Account[]
-  sessions        Session[]
-  portfolios      Portfolio[]
-  watchlists      Watchlist[]
-  alerts          Alert[]
-  journalEntries  JournalEntry[]
-  settings        UserSettings?
-  notifications   NotificationChannel[]
+  accounts          Account[]
+  sessions          Session[]
+  portfolios        Portfolio[]
+  watchlists        Watchlist[]
+  alerts            Alert[]
+  journalEntries    JournalEntry[]
+  settings          UserSettings?
+  notifications     NotificationChannel[]
+  brokerConnections BrokerConnection[]
 }
 
 enum UserRole {
@@ -96,6 +97,10 @@ model UserSettings {
   whatsappEnabled    Boolean  @default(false)
   emailAlertsEnabled Boolean  @default(true)
   minConfidenceScore Int      @default(70) // only alert on opportunities at/above this
+
+  // Trade execution is OFF by default; the user must explicitly opt in and
+  // still confirm every individual order. Alerts/scanner never auto-trade.
+  tradingEnabled     Boolean  @default(false)
 
   theme              String   @default("dark")
 
@@ -355,6 +360,26 @@ model NotificationChannel {
   createdAt DateTime @default(now())
 
   @@unique([userId, channel])
+}
+
+// Broker OAuth connection. Tokens are AES-256-GCM encrypted at rest
+// (see src/lib/crypto.ts) — never stored or logged in plaintext.
+model BrokerConnection {
+  id                   String   @id @default(cuid())
+  userId               String
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  broker               String   // coinbase | ...
+  accessTokenEnc       String   @db.Text
+  refreshTokenEnc      String?  @db.Text
+  scope                String?
+  expiresAt            DateTime?
+  externalAccountLabel String?  // e.g. connected account name/email
+  status               String   @default("connected") // connected | expired | revoked
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, broker])
 }
 
 // ----------------------------------------------------------------------------

@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { MessageCircle, Coins, LineChart, ShieldCheck } from "lucide-react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/layout/page-header";
 import { WhatsAppTest } from "@/components/settings/whatsapp-test";
+import { BrokerConnection } from "@/components/settings/broker-connection";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
@@ -11,8 +15,7 @@ import { env } from "@/lib/env";
 export const metadata: Metadata = { title: "Settings" };
 
 const INTEGRATIONS = [
-  { name: "Coinbase", icon: Coins, desc: "Crypto balances & prices (OAuth)", status: "Available" },
-  { name: "TradingView", icon: LineChart, desc: "Charts & alerts", status: "Available" },
+  { name: "TradingView", icon: LineChart, desc: "Charts & alerts (webhook)", status: "Planned" },
   { name: "Robinhood", icon: ShieldCheck, desc: "No official public API", status: "Planned" },
 ];
 
@@ -26,7 +29,15 @@ function dataFeeds() {
   ];
 }
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const session = await getServerSession(authOptions);
+  const settings = session
+    ? await prisma.userSettings.findUnique({
+        where: { userId: session.user.id },
+        select: { tradingEnabled: true },
+      })
+    : null;
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -91,6 +102,23 @@ export default function SettingsPage() {
           </CardHeader>
           <CardContent>
             <WhatsAppTest />
+          </CardContent>
+        </Card>
+
+        {/* Coinbase broker connection */}
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Coins className="h-4 w-4 text-primary" />
+              Coinbase
+            </CardTitle>
+            <CardDescription>
+              Connect via OAuth to sync balances. Optional live trading is off by
+              default and every order requires explicit confirmation.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <BrokerConnection initialTrading={settings?.tradingEnabled ?? false} />
           </CardContent>
         </Card>
       </div>

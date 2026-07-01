@@ -138,3 +138,23 @@ ai-analyst.ts askAnalyst(messages, context)  → /api/ai/analyst
   the system prompt as `<live_context>` FACTS; the analyst still labels anything
   beyond it as analysis/assumption and never guarantees outcomes.
 - **Settings → Data Feeds** shows each feed's Live/Mock status from `env`.
+
+## Phase 3b: Coinbase broker connection
+
+```
+Settings ── /api/brokers/coinbase/connect ── OAuth (state cookie) ── Coinbase
+                                                     │
+        /api/brokers/coinbase/callback ── exchangeCode ── saveConnection (encrypted)
+                                                     │
+   /api/brokers/coinbase/accounts (read)   ── getAccessToken (auto-refresh) ── getAccounts
+   /api/brokers/coinbase/order  (execute)  ── gates: session + tradingEnabled + confirm
+```
+
+- **`src/server/brokers/`** — `coinbase.ts` (OAuth + v2 API, pure token
+  functions), `connection.ts` (encrypted persistence, auto-refresh), `types.ts`.
+- **`src/lib/crypto.ts`** — AES-256-GCM encryption for tokens at rest
+  (`ENCRYPTION_KEY`); unit-tested for roundtrip and tamper detection.
+- **Trading safety** — three independent gates (auth, `settings.tradingEnabled`,
+  explicit `confirm: true`) and a UI review/confirm step. The scanner, monitor
+  and alerts never call the order endpoint; fills are recorded as `Transaction`
+  + `Alert` rows for local bookkeeping.

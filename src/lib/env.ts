@@ -70,6 +70,19 @@ export const env = {
   broker: {
     coinbaseClientId: optional("COINBASE_CLIENT_ID"),
     coinbaseClientSecret: optional("COINBASE_CLIENT_SECRET"),
+    coinbaseRedirectUri:
+      optional("COINBASE_REDIRECT_URI") ??
+      `${optional("NEXTAUTH_URL") ?? "http://localhost:3000"}/api/brokers/coinbase/callback`,
+    get coinbaseConfigured() {
+      return Boolean(
+        optional("COINBASE_CLIENT_ID") && optional("COINBASE_CLIENT_SECRET"),
+      );
+    },
+  },
+
+  // 32-byte key (base64 or hex) used to encrypt broker tokens at rest.
+  get encryptionKey() {
+    return required("ENCRYPTION_KEY");
   },
 
   // Shared secret authorising the scheduled /api/scan job.

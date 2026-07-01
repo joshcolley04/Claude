@@ -66,13 +66,38 @@ identifies an opportunity at or above your configured minimum confidence score.
 
 ## 6. Broker & market-data integrations
 
-- **Coinbase** — OAuth via `COINBASE_CLIENT_ID` / `COINBASE_CLIENT_SECRET`.
-- **TradingView** — charts via Lightweight Charts; alerts via webhooks (phase 3).
-- **Robinhood** — no official public API; a broker adapter interface is reserved
-  for when an authorised integration is available.
+### Coinbase (OAuth — balances + optional trading)
 
-Never store user broker credentials in prompts, source code or config files —
-use OAuth tokens persisted per-user (encrypted at rest) in phase 3.
+1. Create an OAuth app at <https://www.coinbase.com/settings/api> (or the
+   Coinbase Developer Platform) and note the **Client ID** and **Client Secret**.
+2. Set the redirect/callback URL to
+   `<NEXTAUTH_URL>/api/brokers/coinbase/callback` (must match exactly).
+3. Fill in `.env`:
+   ```
+   COINBASE_CLIENT_ID="..."
+   COINBASE_CLIENT_SECRET="..."
+   COINBASE_REDIRECT_URI="http://localhost:3000/api/brokers/coinbase/callback"
+   ENCRYPTION_KEY="$(openssl rand -base64 32)"   # encrypts stored tokens
+   ```
+4. In the app: **Settings → Coinbase → Connect Coinbase**. After authorising,
+   balances appear automatically.
+5. Requested scopes: `wallet:accounts:read`, `wallet:user:read`,
+   `wallet:buys:create`, `wallet:sells:create`.
+
+**Trading is OFF by default.** To place real orders, toggle *Enable live trading*
+in Settings; each order then requires an explicit in-app confirmation. The
+scanner, monitor and alerts **never** place orders — execution only happens from
+a deliberate user action. OAuth tokens are AES-256-GCM encrypted at rest with
+`ENCRYPTION_KEY` and are never logged or stored in plaintext.
+
+### Others
+
+- **TradingView** — charts via Lightweight Charts; alert ingestion via inbound
+  webhook is planned. No portfolio/balances API exists.
+- **Robinhood** — no official public API; a broker adapter interface is reserved
+  for when an authorised integration (e.g. Alpaca) is added.
+
+Never store user broker credentials in prompts, source code or config files.
 
 ## 7. GitHub setup
 
