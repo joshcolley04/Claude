@@ -1,0 +1,421 @@
+// ============================================================================
+// TRADE24/7 — Prisma schema
+// ============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ----------------------------------------------------------------------------
+// Auth (NextAuth + credentials)
+// ----------------------------------------------------------------------------
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String? // set for credentials-based accounts
+  role          UserRole  @default(USER)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  accounts        Account[]
+  sessions        Session[]
+  portfolios      Portfolio[]
+  watchlists      Watchlist[]
+  alerts          Alert[]
+  journalEntries  JournalEntry[]
+  settings        UserSettings?
+  notifications   NotificationChannel[]
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ----------------------------------------------------------------------------
+// User settings (risk parameters, preferences)
+// ----------------------------------------------------------------------------
+
+model UserSettings {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  riskTolerance      RiskTolerance @default(MODERATE)
+  maxPositionPct     Float    @default(10) // max % of portfolio per position
+  defaultStopLossPct Float    @default(8)
+  defaultTakeProfitPct Float  @default(20)
+  baseCurrency       String   @default("USD")
+
+  // Notification preferences
+  whatsappEnabled    Boolean  @default(false)
+  emailAlertsEnabled Boolean  @default(true)
+  minConfidenceScore Int      @default(70) // only alert on opportunities at/above this
+
+  theme              String   @default("dark")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum RiskTolerance {
+  CONSERVATIVE
+  MODERATE
+  AGGRESSIVE
+}
+
+// ----------------------------------------------------------------------------
+// Instruments (assets tracked across the platform)
+// ----------------------------------------------------------------------------
+
+model Instrument {
+  id           String         @id @default(cuid())
+  symbol       String         // e.g. AAPL, BTC-USD, EURUSD
+  name         String
+  assetClass   AssetClass
+  exchange     String?
+  currency     String         @default("USD")
+  sector       String?
+  logoUrl      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  holdings        Holding[]
+  transactions    Transaction[]
+  watchlistItems  WatchlistItem[]
+  alerts          Alert[]
+  opportunities   Opportunity[]
+  priceSnapshots  PriceSnapshot[]
+
+  @@unique([symbol, assetClass])
+  @@index([assetClass])
+}
+
+enum AssetClass {
+  STOCK
+  ETF
+  CRYPTO
+  FOREX
+  COMMODITY
+  INDEX
+}
+
+model PriceSnapshot {
+  id            String     @id @default(cuid())
+  instrumentId  String
+  instrument    Instrument @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
+  price         Float
+  changePct     Float?
+  volume        Float?
+  capturedAt    DateTime   @default(now())
+
+  @@index([instrumentId, capturedAt])
+}
+
+// ----------------------------------------------------------------------------
+// Portfolio / positions / transactions
+// ----------------------------------------------------------------------------
+
+model Portfolio {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String   @default("Main Portfolio")
+  baseCurrency String  @default("USD")
+  cashBalance Float    @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  holdings     Holding[]
+  transactions Transaction[]
+
+  @@index([userId])
+}
+
+model Holding {
+  id            String     @id @default(cuid())
+  portfolioId   String
+  portfolio     Portfolio  @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  instrumentId  String
+  instrument    Instrument @relation(fields: [instrumentId], references: [id])
+
+  quantity      Float
+  avgCost       Float // average purchase price per unit
+  openedAt      DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([portfolioId, instrumentId])
+  @@index([portfolioId])
+}
+
+model Transaction {
+  id            String          @id @default(cuid())
+  portfolioId   String
+  portfolio     Portfolio       @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  instrumentId  String
+  instrument    Instrument      @relation(fields: [instrumentId], references: [id])
+
+  side          TransactionSide
+  quantity      Float
+  price         Float
+  fees          Float           @default(0)
+  executedAt    DateTime        @default(now())
+  notes         String?
+
+  createdAt DateTime @default(now())
+
+  @@index([portfolioId, executedAt])
+}
+
+enum TransactionSide {
+  BUY
+  SELL
+}
+
+// ----------------------------------------------------------------------------
+// Watchlists
+// ----------------------------------------------------------------------------
+
+model Watchlist {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  isDefault Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items WatchlistItem[]
+
+  @@index([userId])
+}
+
+model WatchlistItem {
+  id           String     @id @default(cuid())
+  watchlistId  String
+  watchlist    Watchlist  @relation(fields: [watchlistId], references: [id], onDelete: Cascade)
+  instrumentId String
+  instrument   Instrument @relation(fields: [instrumentId], references: [id])
+  addedAt      DateTime   @default(now())
+
+  @@unique([watchlistId, instrumentId])
+}
+
+// ----------------------------------------------------------------------------
+// AI opportunities & scoring
+// ----------------------------------------------------------------------------
+
+model Opportunity {
+  id             String     @id @default(cuid())
+  instrumentId   String
+  instrument     Instrument @relation(fields: [instrumentId], references: [id])
+
+  direction      Direction
+  currentPrice   Float
+  suggestedEntry Float
+  stopLoss       Float
+  takeProfit1    Float
+  takeProfit2    Float?
+  holdingPeriod  String? // e.g. "2-6 weeks"
+  positionSizePct Float?  // suggested % of portfolio
+  riskReward     Float?
+
+  // Opportunity score (0-100) + component breakdown
+  overallScore     Int
+  technicalScore   Int
+  fundamentalScore Int
+  momentumScore    Int
+  volumeScore      Int
+  institutionalScore Int
+  sentimentScore   Int
+  macroScore       Int
+  liquidityScore   Int
+  riskScore        Int
+
+  confidence     Int // 0-100
+  thesis         String  @db.Text // supporting evidence / reasoning
+  strengths      String  @db.Text
+  weaknesses     String  @db.Text
+  principalRisks String  @db.Text
+  invalidation   String? @db.Text
+  source         String  @default("ai") // ai | scanner | manual
+
+  status         OpportunityStatus @default(ACTIVE)
+  generatedAt    DateTime @default(now())
+  expiresAt      DateTime?
+
+  alerts Alert[]
+
+  @@index([status, overallScore])
+  @@index([instrumentId])
+}
+
+enum Direction {
+  BUY
+  SELL
+}
+
+enum OpportunityStatus {
+  ACTIVE
+  TRIGGERED
+  EXPIRED
+  INVALIDATED
+}
+
+// ----------------------------------------------------------------------------
+// Alerts & notifications
+// ----------------------------------------------------------------------------
+
+model Alert {
+  id            String     @id @default(cuid())
+  userId        String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  instrumentId  String?
+  instrument    Instrument? @relation(fields: [instrumentId], references: [id])
+  opportunityId String?
+  opportunity   Opportunity? @relation(fields: [opportunityId], references: [id])
+
+  type          AlertType
+  title         String
+  message       String   @db.Text
+  deliveredVia  String?  // whatsapp | email | in-app
+  read          Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, read])
+}
+
+enum AlertType {
+  OPPORTUNITY
+  PRICE
+  NEWS
+  SYSTEM
+}
+
+model NotificationChannel {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  channel   String   // whatsapp | email
+  target    String   // phone number / email
+  verified  Boolean  @default(false)
+  active    Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, channel])
+}
+
+// ----------------------------------------------------------------------------
+// News & economic calendar
+// ----------------------------------------------------------------------------
+
+model NewsArticle {
+  id          String   @id @default(cuid())
+  title       String
+  summary     String?  @db.Text
+  url         String   @unique
+  source      String?
+  imageUrl    String?
+  category    String   // stocks | crypto | economy | technology | central-banks | inflation | rates | politics | earnings
+  symbols     String[] // related tickers
+  sentiment   String?  // positive | neutral | negative
+  whyItMatters String? @db.Text
+  publishedAt DateTime
+
+  createdAt DateTime @default(now())
+
+  @@index([category, publishedAt])
+}
+
+model EconomicEvent {
+  id           String   @id @default(cuid())
+  title        String
+  country      String?
+  category     String   // rates | inflation | gdp | employment | earnings | other
+  importance   Importance @default(MEDIUM)
+  actual       String?
+  forecast     String?
+  previous     String?
+  potentialImpact String? @db.Text
+  eventTime    DateTime
+
+  createdAt DateTime @default(now())
+
+  @@index([eventTime])
+}
+
+enum Importance {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+// ----------------------------------------------------------------------------
+// Investment journal
+// ----------------------------------------------------------------------------
+
+model JournalEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  body      String   @db.Text
+  symbol    String?
+  mood      String?  // conviction / emotion tag
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, createdAt])
+}

@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /$
+Disallow: /dashboard
+Disallow: /portfolio
+Disallow: /scanner
+Disallow: /ai-analyst
+Disallow: /analytics
+Disallow: /settings
+Disallow: /api
