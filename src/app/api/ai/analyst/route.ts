@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { authOptions } from "@/lib/auth";
 import { askAnalyst } from "@/server/services/ai-analyst";
+import { buildAnalystContext } from "@/server/services/analyst-context";
 
 const bodySchema = z.object({
   messages: z
@@ -28,7 +29,9 @@ export async function POST(req: Request) {
   }
 
   try {
-    const result = await askAnalyst(parsed.data.messages);
+    // Ground the analyst in the user's live portfolio, market and opportunities.
+    const context = await buildAnalystContext(session.user.id).catch(() => undefined);
+    const result = await askAnalyst(parsed.data.messages, context);
     return NextResponse.json(result);
   } catch (err) {
     return NextResponse.json(

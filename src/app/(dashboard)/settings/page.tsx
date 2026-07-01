@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { env } from "@/lib/env";
 
 export const metadata: Metadata = { title: "Settings" };
 
@@ -14,6 +15,16 @@ const INTEGRATIONS = [
   { name: "TradingView", icon: LineChart, desc: "Charts & alerts", status: "Available" },
   { name: "Robinhood", icon: ShieldCheck, desc: "No official public API", status: "Planned" },
 ];
+
+/** Live status of the feeds that power quotes and the opportunity scores. */
+function dataFeeds() {
+  return [
+    { name: "Equity / ETF data", desc: "Finnhub quotes, candles & fundamentals", live: Boolean(env.marketData.finnhub) },
+    { name: "Crypto data", desc: "CoinGecko quotes & candles", live: true },
+    { name: "AI Analyst", desc: `${env.ai.model} (grounded in your data)`, live: Boolean(env.ai.apiKey) },
+    { name: "News & sentiment", desc: "Article aggregation & sentiment scoring", live: Boolean(env.news.newsApi || env.news.marketaux) },
+  ];
+}
 
 export default function SettingsPage() {
   return (
@@ -108,6 +119,30 @@ export default function SettingsPage() {
               </div>
             );
           })}
+        </CardContent>
+      </Card>
+
+      {/* Data feeds */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Data Feeds</CardTitle>
+          <CardDescription>
+            Live feeds that power quotes and the opportunity scores. Absent feeds
+            fall back to mock data (dev) or keep the related score component neutral.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-3 sm:grid-cols-2">
+          {dataFeeds().map((f) => (
+            <div key={f.name} className="flex items-center justify-between rounded-lg border border-white/5 bg-white/[0.02] p-4">
+              <div>
+                <p className="font-medium">{f.name}</p>
+                <p className="text-xs text-muted-foreground">{f.desc}</p>
+              </div>
+              <Badge variant={f.live ? "success" : "muted"}>
+                {f.live ? "Live" : "Mock"}
+              </Badge>
+            </div>
+          ))}
         </CardContent>
       </Card>
     </div>

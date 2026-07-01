@@ -12,20 +12,32 @@ export { computeOverallScore, SCORE_WEIGHTS } from "./scoring";
  * persist the resulting opportunities. Previous ACTIVE scanner rows are marked
  * EXPIRED so the table reflects the latest run. Safe to call from a cron job.
  */
-export async function scanAndPersist(): Promise<Opportunity[]> {
-  // Lazy import to keep the scanner (and its indicator deps) out of the hot
-  // path for read-only requests.
-  const { runScan } = await import("./scanner");
-
-  const inputs = await Promise.all(
+/**
+ * Assemble scan inputs for the universe: candles, live per-symbol signals
+ * (fundamentals + sentiment) and a shared market-wide macro score. Signal
+ * fetches degrade gracefully to neutral, so this never throws on missing feeds.
+ */
+async function buildScanInputs() {
+  const { getSignals, getMacroScore } = await import("./signals");
+  const macroScore = await getMacroScore();
+  return Promise.all(
     SCAN_UNIVERSE.map(async (u) => ({
       symbol: u.symbol,
       name: u.name,
       assetClass: u.assetClass,
       candles: await getCandles(u.symbol, u.assetClass, 120),
+      signals: await getSignals(u.symbol, u.assetClass),
+      macroScore,
     })),
   );
+}
 
+export async function scanAndPersist(): Promise<Opportunity[]> {
+  // Lazy import to keep the scanner (and its indicator deps) out of the hot
+  // path for read-only requests.
+  const { runScan } = await import("./scanner");
+
+  const inputs = await buildScanInputs();
   const results = runScan(inputs, 0);
 
   // Expire the previous scanner batch, then persist the new one.
@@ -103,14 +115,7 @@ export async function getTopOpportunities(limit = 10): Promise<Opportunity[]> {
   // No persisted opportunities yet: run an in-memory scan for a useful result.
   try {
     const { runScan } = await import("./scanner");
-    const inputs = await Promise.all(
-      SCAN_UNIVERSE.map(async (u) => ({
-        symbol: u.symbol,
-        name: u.name,
-        assetClass: u.assetClass,
-        candles: await getCandles(u.symbol, u.assetClass, 120),
-      })),
-    );
+    const inputs = await buildScanInputs();
     const results = runScan(inputs, 0);
     if (results.length > 0) return results.slice(0, limit);
   } catch {

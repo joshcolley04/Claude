@@ -62,8 +62,9 @@ set (`ENABLE_MOCK_DATA=true`), so you can explore the full UI immediately.
 ## 🗺️ Roadmap (build phases)
 
 - **Phase 1** — architecture, schema, auth, core layout, dashboard and all primary screens with a mock-data seam. ✅
-- **Phase 2 (this release)** — live market-data adapters (Finnhub, CoinGecko), a technical-indicator library, a scanner engine that produces the 9-factor scores, real portfolio computation from holdings, persisted opportunities, and a scheduled opportunity monitor that dispatches WhatsApp alerts. ✅
-- **Phase 3** — broker integrations (Coinbase OAuth, TradingView), live fundamental/sentiment/macro feeds and the live AI analyst pipeline.
+- **Phase 2** — live market-data adapters (Finnhub, CoinGecko), a technical-indicator library, a scanner engine that produces the 9-factor scores, real portfolio computation from holdings, persisted opportunities, and a scheduled opportunity monitor that dispatches WhatsApp alerts. ✅
+- **Phase 3 (this release)** — live fundamental (Finnhub metrics), sentiment (news aggregation) and macro (economic-calendar regime) feeds that activate the scanner's previously-neutral score components, plus an AI analyst grounded in the user's live portfolio, market overview and scanner opportunities. Any absent feed keeps its score component neutral rather than fabricating data. ✅
+- **Phase 3b** — broker connections (Coinbase OAuth, TradingView, and a live-trading broker such as Alpaca) and a live institutional-ownership feed.
 - **Phase 4** — advanced analytics, backtesting and multi-portfolio support.
 
 ### Scheduled scanning

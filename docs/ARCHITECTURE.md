@@ -107,3 +107,34 @@ providers (finnhub / coingecko)                indicators.ts
   candle history. Empty accounts fall back to mock data.
 - **Monitor** persists a scan batch and alerts each opted-in user on
   opportunities meeting their own `minConfidenceScore`, recording an `Alert`.
+
+## Phase 3: live signals & grounded AI
+
+```
+signals.ts ── getSignals(symbol)        getMacroScore()
+   │  fundamentals (Finnhub /metric)        economic calendar regime
+   │  sentiment (news aggregation)                 │
+   ▼                                               ▼
+scanner.ts  ← ScanInput.signals / .macroScore  (override neutral components)
+   │            absent feed ⇒ component stays neutral (never fabricated)
+   ▼
+opportunities.ts (buildScanInputs → persist / in-memory)
+
+analyst-context.ts ── portfolio + market + top opportunities
+        │
+        ▼
+ai-analyst.ts askAnalyst(messages, context)  → /api/ai/analyst
+   live_context injected as FACTS; model still labels analysis/assumptions
+```
+
+- **`signals.ts`** maps raw fundamentals to a 0-100 quality score, aggregates
+  per-symbol news sentiment, and derives a market-wide macro score from the
+  near-term economic calendar (event risk + forecast surprise). Institutional
+  flow remains neutral pending a premium ownership feed.
+- **Scanner** now accepts optional `signals` and `macroScore`; a shared `pick`
+  helper uses a live value when present and keeps the component neutral (60)
+  otherwise. The generated thesis states which components are live vs pending.
+- **AI analyst** is grounded via `analyst-context.ts`, which is injected into
+  the system prompt as `<live_context>` FACTS; the analyst still labels anything
+  beyond it as analysis/assumption and never guarantees outcomes.
+- **Settings → Data Feeds** shows each feed's Live/Mock status from `env`.

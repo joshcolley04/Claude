@@ -53,6 +53,25 @@ export interface PerformancePoint {
   value: number;
 }
 
+/** Raw company fundamentals (nullable — providers may not cover every field). */
+export interface Fundamentals {
+  peRatio: number | null;
+  netMarginPct: number | null;
+  revenueGrowthPct: number | null;
+  roePct: number | null;
+  debtToEquity: number | null;
+}
+
+/**
+ * External, per-symbol signals that activate the scanner's non-technical score
+ * components. Any field left `null`/absent keeps that component neutral.
+ */
+export interface ExternalSignals {
+  fundamentalScore?: number | null;
+  sentimentScore?: number | null;
+  institutionalScore?: number | null;
+}
+
 /** Component breakdown for the AI Opportunity Score (0-100 each). */
 export interface OpportunityScores {
   overall: number;

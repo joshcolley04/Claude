@@ -32,6 +32,7 @@ export interface AnalystResponse {
 
 export async function askAnalyst(
   messages: AnalystMessage[],
+  context?: string,
 ): Promise<AnalystResponse> {
   if (!env.ai.apiKey) {
     return {
@@ -44,6 +45,13 @@ export async function askAnalyst(
     };
   }
 
+  // Grounding context (portfolio, quotes, scanner) is injected as live FACTS the
+  // model may reference; it must still label anything beyond it as analysis.
+  const system = context
+    ? `${SYSTEM_PROMPT}\n\n<live_context>\n${context}\n</live_context>\n` +
+      `Treat the values in <live_context> as current FACTS. Do not invent prices or holdings beyond it.`
+    : SYSTEM_PROMPT;
+
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: {
@@ -54,7 +62,7 @@ export async function askAnalyst(
     body: JSON.stringify({
       model: env.ai.model,
       max_tokens: 1500,
-      system: SYSTEM_PROMPT,
+      system,
       messages: messages.map((m) => ({ role: m.role, content: m.content })),
     }),
   });

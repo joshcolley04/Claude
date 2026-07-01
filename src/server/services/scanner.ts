@@ -6,13 +6,15 @@
  * 0-100 opportunity score. Entry/stop/target levels are derived from ATR and
  * recent support/resistance so risk/reward is grounded in volatility.
  *
- * Fundamental / institutional / sentiment / macro components are neutral in
- * Phase 2 (no fundamental feed yet) and become live in Phase 3. This is stated
- * explicitly so scores are never over-interpreted.
+ * Fundamental, sentiment and macro components become live when `signals` /
+ * `macroScore` are supplied (Phase 3); any signal left absent keeps its
+ * component neutral, so scores are never fabricated from missing data.
+ * Institutional flow stays neutral until a live ownership feed is wired in.
  */
 import type {
   AssetClass,
   Direction,
+  ExternalSignals,
   Opportunity,
   OpportunityScores,
 } from "@/types/market";
@@ -36,6 +38,10 @@ export interface ScanInput {
   name: string;
   assetClass: AssetClass;
   candles: Candle[];
+  /** Optional live signals; absent fields keep their component neutral. */
+  signals?: ExternalSignals;
+  /** Optional market-wide macro score (0-100). */
+  macroScore?: number;
 }
 
 export interface ScanResult extends Opportunity {}
@@ -109,14 +115,15 @@ export function scanInstrument(input: ScanInput): ScanResult | null {
 
   const direction: Direction = ema20 && last >= ema20 ? "BUY" : "SELL";
 
+  const sig = input.signals;
   const components: Omit<OpportunityScores, "overall"> = {
     technical: technicalScore(candles),
-    fundamental: NEUTRAL,
+    fundamental: pick(sig?.fundamentalScore),
     momentum: momentumScore(candles),
     volume: volumeScore(candles),
-    institutional: NEUTRAL,
-    sentiment: NEUTRAL,
-    macro: NEUTRAL,
+    institutional: pick(sig?.institutionalScore),
+    sentiment: pick(sig?.sentimentScore),
+    macro: pick(input.macroScore),
     liquidity: liquidityScore(input.assetClass),
     risk: riskScore(candles, last),
   };
@@ -170,6 +177,11 @@ export function runScan(inputs: ScanInput[], minScore = 0): ScanResult[] {
 
 // --- helpers ---------------------------------------------------------------
 
+/** Use a live signal when present, otherwise fall back to the neutral score. */
+function pick(value: number | null | undefined): number {
+  return typeof value === "number" ? clampScore(value) : NEUTRAL;
+}
+
 function round(n: number): number {
   return n >= 100 ? Math.round(n * 100) / 100 : Math.round(n * 10000) / 10000;
 }
@@ -179,12 +191,35 @@ function buildThesis(
   scores: OpportunityScores,
   direction: Direction,
 ): string {
+  const sig = input.signals;
+  const live: string[] = ["technical", "momentum", "volume"];
+  const neutral: string[] = [];
+  (
+    [
+      ["fundamental", sig?.fundamentalScore],
+      ["sentiment", sig?.sentimentScore],
+      ["institutional", sig?.institutionalScore],
+      ["macro", input.macroScore],
+    ] as const
+  ).forEach(([name, v]) => (typeof v === "number" ? live : neutral).push(name));
+
+  const neutralNote = neutral.length
+    ? ` ${cap(neutral.join(", "))} ${neutral.length === 1 ? "is" : "are"} neutral pending live data.`
+    : "";
+
   return (
     `Analysis: ${input.symbol} shows ${direction === "BUY" ? "constructive" : "deteriorating"} technicals ` +
-    `(technical ${scores.technical}/100, momentum ${scores.momentum}/100, volume ${scores.volume}/100). ` +
-    `Assumption: current trend and liquidity conditions persist over the holding period. ` +
-    `Fundamental, institutional, sentiment and macro components are neutral pending live feeds (Phase 3).`
+    `(technical ${scores.technical}/100, momentum ${scores.momentum}/100, volume ${scores.volume}/100` +
+    `${typeof sig?.fundamentalScore === "number" ? `, fundamental ${scores.fundamental}/100` : ""}` +
+    `${typeof sig?.sentimentScore === "number" ? `, sentiment ${scores.sentiment}/100` : ""}` +
+    `${typeof input.macroScore === "number" ? `, macro ${scores.macro}/100` : ""}). ` +
+    `Assumption: current trend and liquidity conditions persist over the holding period.` +
+    neutralNote
   );
+}
+
+function cap(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 function buildStrengths(scores: OpportunityScores): string[] {

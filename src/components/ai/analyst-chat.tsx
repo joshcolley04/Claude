@@ -59,6 +59,9 @@ export function AnalystChat() {
               <p className="mt-3 text-sm text-muted-foreground">
                 Ask the AI Analyst about any asset, sector or macro theme.
               </p>
+              <p className="mt-1 text-xs text-muted-foreground/70">
+                Grounded in your live portfolio, market overview and scanner opportunities.
+              </p>
               <div className="mt-4 flex flex-wrap justify-center gap-2">
                 {SUGGESTIONS.map((s) => (
                   <button
