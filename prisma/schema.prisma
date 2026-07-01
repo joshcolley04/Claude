@@ -102,6 +102,11 @@ model UserSettings {
   // still confirm every individual order. Alerts/scanner never auto-trade.
   tradingEnabled     Boolean  @default(false)
 
+  // Auto-execute TradingView webhook signals (crypto via Coinbase). Requires
+  // tradingEnabled too. OFF by default — this is the only automated order path.
+  tvAutoExecute      Boolean  @default(false)
+  tvOrderAmount      Float?   // fixed crypto amount per auto-executed signal
+
   theme              String   @default("dark")
 
   createdAt DateTime @default(now())

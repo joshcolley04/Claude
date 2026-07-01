@@ -65,7 +65,8 @@ set (`ENABLE_MOCK_DATA=true`), so you can explore the full UI immediately.
 - **Phase 2** — live market-data adapters (Finnhub, CoinGecko), a technical-indicator library, a scanner engine that produces the 9-factor scores, real portfolio computation from holdings, persisted opportunities, and a scheduled opportunity monitor that dispatches WhatsApp alerts. ✅
 - **Phase 3 (this release)** — live fundamental (Finnhub metrics), sentiment (news aggregation) and macro (economic-calendar regime) feeds that activate the scanner's previously-neutral score components, plus an AI analyst grounded in the user's live portfolio, market overview and scanner opportunities. Any absent feed keeps its score component neutral rather than fabricating data. ✅
 - **Phase 3b (this release)** — Coinbase broker connection via OAuth: balance/position sync plus optional live trading (buys/sells). Tokens are AES-256-GCM encrypted at rest; trading is off by default and every order requires explicit confirmation — the scanner/monitor never auto-trade. ✅
-- **Phase 4** — advanced analytics, backtesting, multi-portfolio support, TradingView alert webhooks and a live institutional-ownership feed.
+- **Phase 4 (this release)** — a pure, unit-tested backtesting engine (MA-crossover & RSI-reversion strategies with fees/stops/targets), real risk/return analytics (total return, CAGR, max drawdown, volatility, Sharpe, win rate, profit factor) on the Analytics page, and a **TradingView alert webhook** that turns TradingView alerts into in-app opportunities + notifications, with optional opt-in auto-execution routed to Coinbase. ✅
+- **Later** — multi-portfolio support, a live institutional-ownership feed, and a live-trading broker such as Alpaca.
 
 ### Scheduled scanning
 

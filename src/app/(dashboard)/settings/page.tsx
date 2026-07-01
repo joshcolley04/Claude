@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/layout/page-header";
 import { WhatsAppTest } from "@/components/settings/whatsapp-test";
 import { BrokerConnection } from "@/components/settings/broker-connection";
+import { TradingViewSettings } from "@/components/settings/tradingview-settings";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
@@ -15,7 +16,7 @@ import { env } from "@/lib/env";
 export const metadata: Metadata = { title: "Settings" };
 
 const INTEGRATIONS = [
-  { name: "TradingView", icon: LineChart, desc: "Charts & alerts (webhook)", status: "Planned" },
+  { name: "Alpaca", icon: LineChart, desc: "Live-trading broker API", status: "Planned" },
   { name: "Robinhood", icon: ShieldCheck, desc: "No official public API", status: "Planned" },
 ];
 
@@ -34,9 +35,11 @@ export default async function SettingsPage() {
   const settings = session
     ? await prisma.userSettings.findUnique({
         where: { userId: session.user.id },
-        select: { tradingEnabled: true },
+        select: { tradingEnabled: true, tvAutoExecute: true, tvOrderAmount: true },
       })
     : null;
+
+  const tvWebhookUrl = `${env.nextAuthUrl}/api/webhooks/tradingview`;
 
   return (
     <div className="space-y-6">
@@ -119,6 +122,29 @@ export default async function SettingsPage() {
           </CardHeader>
           <CardContent>
             <BrokerConnection initialTrading={settings?.tradingEnabled ?? false} />
+          </CardContent>
+        </Card>
+
+        {/* TradingView alert webhook */}
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <LineChart className="h-4 w-4 text-primary" />
+              TradingView Alerts
+            </CardTitle>
+            <CardDescription>
+              TradingView has no trade API — it sends alerts to this webhook, which
+              become in-app opportunities and notifications. Optional auto-execution
+              routes crypto signals to your connected Coinbase account.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <TradingViewSettings
+              webhookUrl={tvWebhookUrl}
+              configured={Boolean(env.tradingViewWebhookSecret)}
+              initialAutoExecute={settings?.tvAutoExecute ?? false}
+              initialAmount={settings?.tvOrderAmount ?? null}
+            />
           </CardContent>
         </Card>
       </div>

@@ -158,3 +158,20 @@ Settings ── /api/brokers/coinbase/connect ── OAuth (state cookie) ──
   explicit `confirm: true`) and a UI review/confirm step. The scanner, monitor
   and alerts never call the order endpoint; fills are recorded as `Transaction`
   + `Alert` rows for local bookkeeping.
+
+## Phase 4: backtesting, analytics & TradingView
+
+- **`src/lib/analytics.ts`** — pure return/risk metrics (daily returns, max
+  drawdown, annualised volatility, Sharpe, CAGR, win rate, profit factor).
+  Unit-tested against known values; powers both the Analytics page (real
+  portfolio equity series) and the backtester.
+- **`src/lib/backtest.ts`** — pure, deterministic long-only engine with fees,
+  stop-loss and take-profit, plus built-in `maCrossover` and `rsiReversion`
+  strategies (no look-ahead). Unit-tested for exact trade math, fee impact,
+  stop exits and crossover detection. Served via `/api/backtest`.
+- **TradingView webhook** (`/api/webhooks/tradingview` → `tradingview.ts`) —
+  authenticates via `TRADINGVIEW_WEBHOOK_SECRET` (body or query), turns each
+  alert into an Opportunity + Alerts + WhatsApp notifications. Optional
+  auto-execution routes crypto signals to Coinbase, gated by BOTH
+  `tradingEnabled` and `tvAutoExecute` (both default off) — the only automated
+  order path in the app.

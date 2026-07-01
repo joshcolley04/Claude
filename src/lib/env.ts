@@ -88,5 +88,8 @@ export const env = {
   // Shared secret authorising the scheduled /api/scan job.
   cronSecret: optional("CRON_SECRET"),
 
+  // Secret that authenticates inbound TradingView alert webhooks.
+  tradingViewWebhookSecret: optional("TRADINGVIEW_WEBHOOK_SECRET"),
+
   mockDataEnabled: (optional("ENABLE_MOCK_DATA") ?? "true") === "true",
 } as const;

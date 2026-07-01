@@ -90,12 +90,33 @@ scanner, monitor and alerts **never** place orders — execution only happens fr
 a deliberate user action. OAuth tokens are AES-256-GCM encrypted at rest with
 `ENCRYPTION_KEY` and are never logged or stored in plaintext.
 
+### TradingView alerts (webhook)
+
+TradingView has no trade API, but its alerts can POST to a webhook.
+
+1. Generate a secret: `openssl rand -hex 32` → set `TRADINGVIEW_WEBHOOK_SECRET`.
+2. In the app: **Settings → TradingView Alerts** shows your webhook URL
+   (`<host>/api/webhooks/tradingview`) and an example JSON message.
+3. In a TradingView alert, set **Webhook URL** to that URL and the **message** to:
+   ```json
+   {"secret":"<TRADINGVIEW_WEBHOOK_SECRET>","symbol":"BTC-USD","action":"buy","assetClass":"CRYPTO","price":{{close}}}
+   ```
+4. Each alert becomes an in-app opportunity + notification. To auto-route crypto
+   signals to Coinbase, enable **Auto-execute** (requires live trading enabled
+   and a connected Coinbase account) and set an order size. This is the only
+   order path that skips per-order confirmation — it is off by default.
+
 ### Others
 
-- **TradingView** — charts via Lightweight Charts; alert ingestion via inbound
-  webhook is planned. No portfolio/balances API exists.
 - **Robinhood** — no official public API; a broker adapter interface is reserved
   for when an authorised integration (e.g. Alpaca) is added.
+
+### Backtesting
+
+**Analytics → Strategy Backtesting** simulates a rule (MA crossover or RSI
+reversion) over historical candles and reports total return, max drawdown, win
+rate, profit factor and Sharpe. It is a simulation on past data, not a
+prediction of future results.
 
 Never store user broker credentials in prompts, source code or config files.
 
