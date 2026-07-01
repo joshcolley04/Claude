@@ -17,21 +17,24 @@ services:
       timeout: 5s
       retries: 5
 
-  # The app is optional in local dev (run `npm run dev` directly).
-  # Uncomment to run the full stack in Docker.
-  # app:
-  #   build: .
-  #   container_name: trade247-app
-  #   restart: unless-stopped
-  #   depends_on:
-  #     db:
-  #       condition: service_healthy
-  #   environment:
-  #     DATABASE_URL: postgresql://trade247:trade247@db:5432/trade247?schema=public
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - "3000:3000"
+  # All-in-one app: builds the image, applies the schema, seeds demo data on
+  # first run, then serves on http://localhost:3000. One command: `docker compose up`.
+  app:
+    build: .
+    container_name: trade247-app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # Overrides DATABASE_URL from .env so the app reaches the db container.
+      DATABASE_URL: postgresql://trade247:trade247@db:5432/trade247?schema=public
+      NEXTAUTH_URL: http://localhost:3000
+      SEED_ON_START: "true"
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
 
 volumes:
   trade247_pgdata:

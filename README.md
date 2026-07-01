@@ -30,28 +30,42 @@ Next.js 14 (App Router) · TypeScript · React · Tailwind CSS · Framer Motion 
 shadcn-style UI (Radix) · Lucide · Prisma · PostgreSQL · NextAuth ·
 TanStack React Query · Recharts / TradingView Lightweight Charts · Docker.
 
-## 🚀 Quick Start
+## 🚀 Quick Start (one command, no domain needed)
+
+Runs entirely on your own computer at `localhost` — you do **not** need a domain,
+DNS or any hosting. Requires [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+(and nothing else).
 
 ```bash
-# 1. Install dependencies
-npm install
+# 1. Create your env file, then paste the four generated secrets into it
+cp .env.local.sample .env
 
-# 2. Configure environment
-cp .env.example .env        # then edit values (see docs/SETUP.md)
+# 2. Build + run everything (app + database + demo data)
+docker compose up --build
 
-# 3. Start PostgreSQL (Docker)
-docker compose up -d db
-
-# 4. Create the schema and seed a demo user
-npm run db:push
-npm run db:seed             # demo@trade247.local / Demo1234!
-
-# 5. Run the dev server
-npm run dev                 # http://localhost:3000
+# 3. Open the app
+#    http://localhost:3000   →  log in with  demo@trade247.local / Demo1234!
 ```
 
+That's it. `docker compose up` builds the app, starts PostgreSQL, applies the
+schema and seeds a demo account. Stop with `Ctrl+C`; re-run any time with
+`docker compose up`.
+
 The platform runs end-to-end with **mock market data** when no provider keys are
-set (`ENABLE_MOCK_DATA=true`), so you can explore the full UI immediately.
+set, so the full UI works immediately. Add real keys to `.env` later to switch
+feeds live (see [docs/SETUP.md](docs/SETUP.md)).
+
+<details>
+<summary>Alternative: run without Docker (Node 20+)</summary>
+
+```bash
+npm install
+cp .env.local.sample .env         # set DATABASE_URL + NEXTAUTH_SECRET
+docker compose up -d db           # just the database
+npm run db:push && npm run db:seed
+npm run dev                       # http://localhost:3000
+```
+</details>
 
 ## 📚 Documentation
 
