@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TRADE24/7 — Demo</title>
+<style>
+  :root{
+    --night:#050505; --charcoal:#111111; --slate:#1A1A1A;
+    --electric:#3B82F6; --muted:#8a8a8a; --border:rgba(255,255,255,.10);
+    --success:#22c55e; --danger:#ef4444;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--night);color:#fff;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    font-variant-numeric:tabular-nums;
+  }
+  .app{display:flex;min-height:100vh}
+  /* sidebar */
+  .sidebar{width:250px;flex-shrink:0;border-right:1px solid var(--border);
+    background:rgba(17,17,17,.5);backdrop-filter:blur(20px);display:flex;flex-direction:column}
+  .brand{display:flex;align-items:center;gap:10px;height:64px;padding:0 20px;border-bottom:1px solid var(--border)}
+  .logo{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;font-weight:700;font-size:13px;
+    background:linear-gradient(135deg,#3B82F6,#1d4ed8);box-shadow:0 8px 24px rgba(59,130,246,.25)}
+  .brand b{font-size:14px;letter-spacing:-.02em}
+  .brand sup{font-size:8px;color:var(--muted)}
+  nav{padding:12px;flex:1}
+  .navitem{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:9px;color:var(--muted);
+    font-size:14px;font-weight:500;cursor:pointer;border:1px solid transparent;user-select:none}
+  .navitem:hover{background:rgba(255,255,255,.04);color:#fff}
+  .navitem.active{color:#fff;background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.30)}
+  .navitem .ic{width:16px;height:16px;opacity:.9}
+  .disclaimer{padding:16px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);line-height:1.5}
+  /* main */
+  .main{flex:1;min-width:0;display:flex;flex-direction:column}
+  .topbar{height:64px;display:flex;align-items:center;gap:14px;padding:0 24px;border-bottom:1px solid var(--border);
+    position:sticky;top:0;background:rgba(5,5,5,.7);backdrop-filter:blur(18px);z-index:5}
+  .search{flex:1;max-width:420px;height:38px;border-radius:9px;border:1px solid var(--border);
+    background:rgba(255,255,255,.03);color:var(--muted);display:flex;align-items:center;padding:0 12px;gap:8px;font-size:13px}
+  .userchip{margin-left:auto;display:flex;align-items:center;gap:8px;border:1px solid var(--border);
+    border-radius:999px;padding:4px 12px 4px 4px;font-size:13px;color:var(--muted)}
+  .avatar{width:28px;height:28px;border-radius:999px;background:rgba(59,130,246,.2);color:#93c5fd;
+    display:grid;place-items:center;font-weight:600;font-size:12px}
+  .content{padding:24px;max-width:1400px;width:100%;margin:0 auto}
+  h1{font-size:24px;letter-spacing:-.02em;margin-bottom:4px}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:22px}
+  /* cards */
+  .glass{border:1px solid var(--border);background:rgba(255,255,255,.03);backdrop-filter:blur(18px);border-radius:14px}
+  .grid{display:grid;gap:16px}
+  .stats{grid-template-columns:repeat(4,1fr)}
+  .card{padding:20px}
+  .card .lbl{color:var(--muted);font-size:13px}
+  .card .val{font-size:26px;font-weight:600;letter-spacing:-.02em;margin-top:8px}
+  .chg{font-size:13px;margin-top:4px}
+  .up{color:var(--success)} .down{color:var(--danger)}
+  .row{display:grid;gap:16px}
+  .r-2-1{grid-template-columns:2fr 1fr}
+  .r-3{grid-template-columns:repeat(3,1fr)}
+  .ctitle{font-weight:600;font-size:15px}
+  .chead{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 0}
+  .badge{font-size:11px;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.06);color:var(--muted)}
+  .badge.blue{background:rgba(59,130,246,.15);color:#93c5fd}
+  .badge.green{background:rgba(34,197,94,.15);color:#86efac}
+  .badge.red{background:rgba(239,68,68,.15);color:#fca5a5}
+  /* table */
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;color:var(--muted);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.04em;padding-bottom:8px}
+  td{padding:10px 0;border-top:1px solid rgba(255,255,255,.05)}
+  .tr td:first-child b{font-weight:600}
+  .tr td .nm{color:var(--muted);font-size:12px}
+  .right{text-align:right}
+  /* opportunity */
+  .opp{padding:18px}
+  .opp .top{display:flex;justify-content:space-between;align-items:flex-start}
+  .opp .sym{font-weight:600}
+  .opp .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+  .opp .metrics .m .k{font-size:10px;text-transform:uppercase;color:var(--muted);letter-spacing:.04em}
+  .opp .metrics .m .v{font-size:13px;font-weight:500;margin-top:2px}
+  .opp .thesis{color:var(--muted);font-size:12.5px;line-height:1.5;margin-top:14px}
+  .opp .foot{display:flex;justify-content:space-between;font-size:12px;margin-top:14px}
+  .listrow{display:flex;justify-content:space-between;padding:9px 0;border-top:1px solid rgba(255,255,255,.05);font-size:13px}
+  .listrow:first-child{border-top:none}
+  .news{border-top:1px solid rgba(255,255,255,.05);padding:14px 0}
+  .news:first-child{border-top:none}
+  .news .t{font-size:13.5px;font-weight:500;margin:6px 0 4px}
+  .news .why{font-size:12px;color:var(--muted);line-height:1.5}
+  .why b{color:#cbd5e1}
+  .view{display:none} .view.active{display:block}
+  .section-title{font-size:17px;font-weight:600;margin:0 0 14px;display:flex;align-items:center;gap:8px}
+  .pill{font-size:11px;padding:4px 10px;border-radius:999px;border:1px solid var(--border);color:var(--muted)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+  .mono{font-variant-numeric:tabular-nums}
+  @media(max-width:900px){
+    .sidebar{display:none}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .r-2-1,.r-3{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">24</div>
+      <div><b>TRADE24/7</b><sup>™</sup></div>
+    </div>
+    <nav id="nav">
+      <div class="navitem active" data-view="dashboard">📊 <span>Dashboard</span></div>
+      <div class="navitem" data-view="portfolio">💼 <span>Portfolio</span></div>
+      <div class="navitem" data-view="scanner">📡 <span>Market Scanner</span></div>
+      <div class="navitem" data-view="ai">✨ <span>AI Analyst</span></div>
+      <div class="navitem" data-view="news">📰 <span>News</span></div>
+      <div class="navitem" data-view="analytics">📈 <span>Analytics</span></div>
+      <div class="navitem" data-view="settings">⚙️ <span>Settings</span></div>
+    </nav>
+    <div class="disclaimer">For research &amp; education. Not investment advice.</div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="search">🔍 Search symbols, news, opportunities…</div>
+      <div class="userchip"><span class="avatar">J</span> Josh</div>
+    </div>
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <section class="view active" id="dashboard">
+        <h1>Welcome back, Josh</h1>
+        <div class="sub">Your portfolio and the markets at a glance.</div>
+
+        <div class="grid stats" style="margin-bottom:16px">
+          <div class="glass card"><div class="lbl">Portfolio Value</div><div class="val">$128,450</div><div class="chg up">▲ +1.06% today</div></div>
+          <div class="glass card"><div class="lbl">Today's P&amp;L</div><div class="val">$1,342</div><div class="chg up">▲ +1.06%</div></div>
+          <div class="glass card"><div class="lbl">Cash Balance</div><div class="val">$18,320</div><div class="chg" style="color:var(--muted)">7 open · 23 closed</div></div>
+          <div class="glass card"><div class="lbl">Monthly Performance</div><div class="val">+6.42%</div><div class="chg up">▲ +2.81% this week</div></div>
+        </div>
+
+        <div class="row r-2-1" style="margin-bottom:16px">
+          <div class="glass">
+            <div class="chead"><div class="ctitle">Portfolio Performance</div><div class="badge">90 days</div></div>
+            <div class="card" id="perfChart"></div>
+          </div>
+          <div class="glass">
+            <div class="chead"><div class="ctitle">Allocation</div></div>
+            <div class="card" id="allocChart"></div>
+          </div>
+        </div>
+
+        <div class="section-title">✨ Highest-Conviction Opportunities <span class="badge">AI-generated · not advice</span></div>
+        <div class="row r-3" id="opps" style="margin-bottom:22px"></div>
+
+        <div class="row r-2-1">
+          <div class="glass">
+            <div class="chead"><div class="ctitle">Open Positions</div></div>
+            <div class="card">
+              <table>
+                <thead><tr><th>Asset</th><th class="right">Qty</th><th class="right">Avg Cost</th><th class="right">Price</th><th class="right">Value</th><th class="right">P&amp;L</th></tr></thead>
+                <tbody id="positions"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="glass">
+            <div class="chead"><div class="ctitle">Market Overview</div></div>
+            <div class="card" id="market"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCANNER -->
+      <section class="view" id="scanner">
+        <h1>Market Scanner</h1>
+        <div class="sub">Continuously scans stocks, ETFs, crypto, forex, commodities &amp; indices for high-quality setups.</div>
+        <div class="chips">
+          <span class="pill">Momentum</span><span class="pill">Breakouts</span><span class="pill">Trend reversals</span>
+          <span class="pill">Relative strength</span><span class="pill">Volume spikes</span><span class="pill">Support &amp; resistance</span>
+          <span class="pill">Institutional buying</span><span class="pill">Market sentiment</span><span class="pill">Macro catalysts</span>
+        </div>
+        <div class="row r-3" id="oppsScan"></div>
+      </section>
+
+      <!-- AI ANALYST -->
+      <section class="view" id="ai">
+        <h1>AI Investment Analyst</h1>
+        <div class="sub">Grounded in your live portfolio, market overview and scanner opportunities. Labels facts vs analysis; never guarantees outcomes.</div>
+        <div class="glass card">
+          <div style="max-width:760px">
+            <div style="display:flex;justify-content:flex-end;margin-bottom:14px">
+              <div style="background:var(--electric);color:#fff;border-radius:16px;padding:10px 14px;font-size:13.5px;max-width:80%">Analyse NVDA on a 6-week horizon</div>
+            </div>
+            <div style="border:1px solid var(--border);background:rgba(255,255,255,.03);border-radius:16px;padding:14px 16px;font-size:13.5px;line-height:1.6;color:#e5e7eb">
+              <b>NVDA — NVIDIA Corp · $126.80</b><br><br>
+              <b style="color:#93c5fd">ANALYSIS:</b> Price is consolidating above the rising 50-day average after a breakout; momentum (92/100) and volume (84/100) remain constructive.<br>
+              <b style="color:#93c5fd">ASSUMPTION:</b> AI data-center capex stays elevated through the next two quarters.<br><br>
+              Suggested entry <b>$124.50</b> · Stop-loss <b>$114.00</b> · Targets <b>$142 / $158</b> · Hold 6–12 wks · Size 6% · R:R 2.4:1 · <b>Confidence 82/100</b>.<br><br>
+              <b style="color:#fca5a5">Principal risks:</b> broad tech drawdown on rate surprises; guidance disappointment at next earnings. <b>Invalidation:</b> daily close below $114.<br><br>
+              <span style="color:var(--muted)">Not investment advice. Manage risk and size positions responsibly.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- NEWS -->
+      <section class="view" id="news">
+        <h1>News Intelligence</h1>
+        <div class="sub">Aggregated financial news with plain-English context on why each story matters.</div>
+        <div class="glass card" id="newslist"></div>
+      </section>
+
+      <!-- ANALYTICS -->
+      <section class="view" id="analytics">
+        <h1>Analytics</h1>
+        <div class="sub">Performance, risk metrics and strategy backtesting.</div>
+        <div class="grid stats" style="margin-bottom:16px">
+          <div class="glass card"><div class="lbl">Total Return (180d)</div><div class="val">+18.4%</div></div>
+          <div class="glass card"><div class="lbl">Max Drawdown</div><div class="val down">-11.4%</div></div>
+          <div class="glass card"><div class="lbl">Volatility (ann.)</div><div class="val">14.2%</div></div>
+          <div class="glass card"><div class="lbl">Sharpe (ann.)</div><div class="val">1.62</div></div>
+        </div>
+        <div class="glass">
+          <div class="chead"><div class="ctitle">Strategy Backtest — MA Crossover (20/50) on AAPL</div><div class="badge green">Win rate 63%</div></div>
+          <div class="card" id="btChart"></div>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="view" id="settings">
+        <h1>Settings</h1>
+        <div class="sub">Risk parameters, notifications and connected services.</div>
+        <div class="row r-2-1">
+          <div class="glass card">
+            <div class="ctitle" style="margin-bottom:14px">Risk &amp; Position Sizing</div>
+            <div class="listrow"><span>Risk Tolerance</span><b>Moderate</b></div>
+            <div class="listrow"><span>Max Position</span><b>10%</b></div>
+            <div class="listrow"><span>Default Stop-Loss</span><b>8%</b></div>
+            <div class="listrow"><span>Min Confidence for alerts</span><b>70</b></div>
+          </div>
+          <div class="glass card">
+            <div class="ctitle" style="margin-bottom:14px">Connected Services</div>
+            <div class="listrow"><span>Coinbase (OAuth)</span><span class="badge green">Available</span></div>
+            <div class="listrow"><span>WhatsApp Alerts</span><span class="badge green">Available</span></div>
+            <div class="listrow"><span>TradingView Webhook</span><span class="badge green">Available</span></div>
+            <div class="listrow"><span>Live Trading</span><span class="badge">Off by default</span></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---- mock data ---- */
+const fmt = n => '$'+n.toLocaleString('en-US',{maximumFractionDigits:0});
+const positions = [
+  ['AAPL','Apple Inc.',120,178.4,214.3,25716,20.1],
+  ['NVDA','NVIDIA Corp.',150,92.1,126.8,19020,37.7],
+  ['MSFT','Microsoft Corp.',40,372.5,448.9,17956,20.5],
+  ['BTC-USD','Bitcoin',0.18,41200,63120,11362,53.2],
+  ['VOO','Vanguard S&P 500',20,402.3,498.7,9974,24.0],
+  ['ETH-USD','Ethereum',2.1,2280,3410,7161,49.6],
+];
+const market = [['SPX','S&P 500',5432.1,0.62],['NDX','Nasdaq 100',19234.5,0.94],['AAPL','Apple',214.3,1.21],['NVDA','NVIDIA',126.8,2.87],['BTC-USD','Bitcoin',63120,-1.34],['ETH-USD','Ethereum',3410,-0.72]];
+const alloc = [['Technology',56.9,'#3B82F6'],['Crypto',16.8,'#8B5CF6'],['ETFs',9.1,'#10B981'],['Cash',16.6,'#64748B']];
+const opps = [
+  ['BUY','NVDA','NVIDIA Corp.',87,82,124.5,114,142,'2.4','Constructive technicals (technical 90/100, momentum 92/100) above a rising 50-day MA; accelerating data-center demand supports the picture.'],
+  ['BUY','BTC-USD','Bitcoin',74,71,61500,56000,72000,'1.9','Persistent spot-ETF inflows and a higher-low structure support continuation. Assumes liquidity stays supportive.'],
+  ['BUY','XLE','Energy Sector ETF',70,68,92.8,88,102,'1.9','Improving relative strength as a hedge against sticky inflation. Assumes crude holds its range.'],
+];
+const news = [
+  ['central-banks','Federal Reserve holds rates steady, signals data-dependent path','Rate expectations drive equity and bond valuations broadly; a data-dependent stance keeps volatility elevated around each inflation print.'],
+  ['technology','Semiconductor demand accelerates on AI infrastructure buildout','Sustained AI capex supports revenue visibility for the chip complex, a key driver of index-level performance.'],
+  ['crypto','Bitcoin ETFs see continued net inflows','ETF inflows represent structural demand that can support price during consolidation phases.'],
+];
+
+/* ---- svg helpers ---- */
+function areaChart(el,{w=640,h=210,seed=1,color='#3B82F6',start=104000,pad=28}={}){
+  let v=start,pts=[];const n=90;let s=seed;
+  const rnd=()=>{s=(s*1103515245+12345)&0x7fffffff;return s/0x7fffffff;};
+  for(let i=0;i<=n;i++){v+=Math.sin(i/9)*480+Math.cos(i/4)*220+i*28+(rnd()-.5)*300;pts.push(v);}
+  const min=Math.min(...pts),max=Math.max(...pts);
+  const X=i=>pad+ i*(w-pad*1.2)/n, Y=val=>h-20-((val-min)/(max-min||1))*(h-40);
+  let d='M'+X(0)+' '+Y(pts[0]); pts.forEach((p,i)=>d+=' L'+X(i).toFixed(1)+' '+Y(p).toFixed(1));
+  let area=d+` L${X(n).toFixed(1)} ${h-10} L${X(0)} ${h-10} Z`;
+  el.innerHTML=`<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}">
+    <defs><linearGradient id="g${seed}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${color}" stop-opacity=".35"/><stop offset="100%" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>
+    <path d="${area}" fill="url(#g${seed})"/><path d="${d}" fill="none" stroke="${color}" stroke-width="2"/></svg>`;
+}
+function donut(el,data){
+  const r=54,c=2*Math.PI*r;let off=0;
+  const segs=data.map(([lbl,pct,col])=>{const len=pct/100*c;const s=`<circle cx="70" cy="70" r="${r}" fill="none" stroke="${col}" stroke-width="16" stroke-dasharray="${len} ${c-len}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"/>`;off+=len;return s;}).join('');
+  const legend=data.map(([lbl,pct,col])=>`<div class="listrow" style="border:none;padding:5px 0"><span style="display:flex;align-items:center;gap:8px"><i style="width:10px;height:10px;border-radius:3px;background:${col};display:inline-block"></i>${lbl}</span><b>${pct}%</b></div>`).join('');
+  el.innerHTML=`<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><svg width="140" height="140" viewBox="0 0 140 140">${segs}</svg><div style="flex:1;min-width:150px">${legend}</div></div>`;
+}
+function ring(score){
+  const r=24,c=2*Math.PI*r,off=c-(score/100)*c;
+  const col=score>=80?'#22c55e':score>=65?'#3B82F6':'#f59e0b';
+  return `<svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="${r}" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="4"/><circle cx="28" cy="28" r="${r}" fill="none" stroke="${col}" stroke-width="4" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}" transform="rotate(-90 28 28)"/><text x="28" y="30" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">${score}</text><text x="28" y="41" text-anchor="middle" font-size="6" fill="#8a8a8a">SCORE</text></svg>`;
+}
+function oppCard(o){
+  const[side,sym,nm,score,conf,entry,stop,tp,rr,thesis]=o;
+  return `<div class="glass opp"><div class="top"><div><span class="badge ${side==='BUY'?'green':'red'}">${side}</span>
+    <div style="margin-top:8px"><span class="sym">${sym}</span> <span class="badge">${nm}</span></div></div>${ring(score)}</div>
+    <div class="metrics">
+      <div class="m"><div class="k">Entry</div><div class="v">$${entry}</div></div>
+      <div class="m"><div class="k">Stop</div><div class="v down">$${stop}</div></div>
+      <div class="m"><div class="k">Target</div><div class="v up">$${tp}</div></div>
+      <div class="m"><div class="k">R:R</div><div class="v">${rr}:1</div></div>
+    </div><div class="thesis">${thesis}</div>
+    <div class="foot"><span style="color:var(--muted)">Hold 6–12 wks</span><b style="color:#93c5fd">Confidence ${conf}/100</b></div></div>`;
+}
+
+/* ---- render ---- */
+areaChart(document.getElementById('perfChart'),{seed:7});
+donut(document.getElementById('allocChart'),alloc);
+document.getElementById('opps').innerHTML=opps.map(oppCard).join('');
+document.getElementById('oppsScan').innerHTML=opps.concat(opps).map(oppCard).join('');
+document.getElementById('positions').innerHTML=positions.map(p=>`<tr class="tr"><td><b>${p[0]}</b><div class="nm">${p[1]}</div></td><td class="right">${p[2]}</td><td class="right">${fmt(p[3])}</td><td class="right">${fmt(p[4])}</td><td class="right">${fmt(p[5])}</td><td class="right up">+${p[6]}%</td></tr>`).join('');
+document.getElementById('market').innerHTML=market.map(m=>`<div class="listrow"><span><b>${m[0]}</b> <span style="color:var(--muted)">${m[1]}</span></span><span>${m[2].toLocaleString()} <b class="${m[3]>=0?'up':'down'}">${m[3]>=0?'+':''}${m[3]}%</b></span></div>`).join('');
+document.getElementById('newslist').innerHTML=news.map(n=>`<div class="news"><span class="badge blue">${n[0].replace('-',' ')}</span><div class="t">${n[1]}</div><div class="why"><b>Why it matters:</b> ${n[2]}</div></div>`).join('');
+areaChart(document.getElementById('btChart'),{seed:3,start:10000,color:'#22c55e'});
+
+/* ---- nav ---- */
+document.getElementById('nav').addEventListener('click',e=>{
+  const item=e.target.closest('.navitem'); if(!item)return;
+  document.querySelectorAll('.navitem').forEach(n=>n.classList.remove('active'));
+  item.classList.add('active');
+  const v=item.dataset.view;
+  document.querySelectorAll('.view').forEach(s=>s.classList.toggle('active',s.id===v));
+  window.scrollTo(0,0);
+});
+</script>
+</body>
+</html>
