@@ -48,7 +48,9 @@ data is swapped for live providers.
 │   │   ├── news/  calendar/ ai/  settings/
 │   │   └── providers.tsx    # SessionProvider + React Query
 │   ├── lib/                 # utils, prisma, auth, env, navigation, validations
-│   ├── server/services/     # market-data, opportunities, news, ai, whatsapp, mock
+│   ├── server/services/     # market-data, portfolio, scanner, opportunities,
+│   │   │                     #   monitor, news, ai, whatsapp, universe, mock
+│   │   └── providers/        # finnhub, coingecko, dispatcher (+cache), mock-candles
 │   └── types/               # market types + next-auth augmentation
 ├── docs/
 ├── docker-compose.yml
@@ -75,3 +77,33 @@ data is swapped for live providers.
 `src/server/services/opportunities.ts` defines weighted component scores that
 roll up into the overall 0–100 score, keeping the scanner and AI analyst
 consistent. Weights live in `SCORE_WEIGHTS`.
+
+## Phase 2: data flow
+
+```
+providers (finnhub / coingecko)                indicators.ts
+        │  getQuote / getCandles                 (sma/ema/rsi/atr/…)
+        ▼  (TTL cache, mock fallback)                   │
+   ┌──────────────┐                              ┌───────────────┐
+   │ portfolio.ts │  real positions/summary      │  scanner.ts   │  9-factor scores
+   └──────┬───────┘  from holdings + quotes      └──────┬────────┘  + ATR-based levels
+          │                                             │
+   market-data.ts (facade)                       opportunities.ts (persist + read)
+          │                                             │
+          ▼                                             ▼
+     dashboard / portfolio pages              monitor.ts → WhatsApp alerts
+                                              (POST/GET /api/scan, cron)
+```
+
+- **Indicators** (`src/lib/indicators.ts`) are pure and unit-tested (SMA, EMA,
+  RSI with Wilder smoothing, momentum, ATR, volume ratio, support/resistance).
+- **Scanner** maps indicators to technical/momentum/volume/liquidity/risk
+  scores; fundamental/institutional/sentiment/macro are neutral until Phase 3
+  feeds land, and this is stated in the generated thesis so scores are never
+  over-interpreted. Stops/targets are derived from ATR (2× ATR stop, 2R/3.5R
+  targets).
+- **Portfolio** computes positions from `Holding` rows valued with live quotes,
+  day P&L from quote change, and week/month performance + the growth curve from
+  candle history. Empty accounts fall back to mock data.
+- **Monitor** persists a scan batch and alerts each opted-in user on
+  opportunities meeting their own `minConfidenceScore`, recording an `Alert`.

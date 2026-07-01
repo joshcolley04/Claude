@@ -61,10 +61,17 @@ set (`ENABLE_MOCK_DATA=true`), so you can explore the full UI immediately.
 
 ## 🗺️ Roadmap (build phases)
 
-- **Phase 1 (this release)** — architecture, schema, auth, core layout, dashboard and all primary screens with a mock-data seam.
-- **Phase 2** — live market-data adapters, real portfolio computation from transactions, scanner engine and persisted opportunities.
-- **Phase 3** — broker integrations (Coinbase OAuth, TradingView), scheduled alerting jobs and the live AI analyst pipeline.
+- **Phase 1** — architecture, schema, auth, core layout, dashboard and all primary screens with a mock-data seam. ✅
+- **Phase 2 (this release)** — live market-data adapters (Finnhub, CoinGecko), a technical-indicator library, a scanner engine that produces the 9-factor scores, real portfolio computation from holdings, persisted opportunities, and a scheduled opportunity monitor that dispatches WhatsApp alerts. ✅
+- **Phase 3** — broker integrations (Coinbase OAuth, TradingView), live fundamental/sentiment/macro feeds and the live AI analyst pipeline.
 - **Phase 4** — advanced analytics, backtesting and multi-portfolio support.
+
+### Scheduled scanning
+
+`POST`/`GET /api/scan` runs the scanner over the universe, persists opportunities
+and sends alerts to opted-in users. Secure it with `CRON_SECRET`
+(`Authorization: Bearer <secret>`); `vercel.json` schedules it hourly. Vercel
+Cron adds the bearer token automatically when `CRON_SECRET` is set.
 
 ## 🔒 Security
 

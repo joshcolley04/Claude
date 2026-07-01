@@ -72,5 +72,8 @@ export const env = {
     coinbaseClientSecret: optional("COINBASE_CLIENT_SECRET"),
   },
 
+  // Shared secret authorising the scheduled /api/scan job.
+  cronSecret: optional("CRON_SECRET"),
+
   mockDataEnabled: (optional("ENABLE_MOCK_DATA") ?? "true") === "true",
 } as const;
